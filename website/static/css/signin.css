@@ -1,0 +1,113 @@
+.signup-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 30px auto;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.signup-container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.signup-container p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.google-signup {
+    color: #4285f4;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border: 1px solid #4285f4;
+    border-radius: 30px; 
+    margin: 10px 0;
+}
+
+.google-signup:hover {
+    background-color: #f1f1f1;
+}
+
+.google-signup img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+form input {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    background-color: #f1f1f1;
+    box-sizing: border-box;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+form input:focus {
+    border: 1px solid #4285f4;
+    box-shadow: 0 0 5px rgba(66, 133, 244, 0.8);
+    background-color: #fff;
+}
+
+form button {
+    background-color: #4285f4;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #357ae8;
+}
+
+.signup-container a {
+    color: #4285f4;
+    text-decoration: none;
+}
+
+.signup-container a:hover {
+    text-decoration: underline;
+}
+
+.or-divider {
+    position: relative;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: #ccc;
+}
+
+.or-divider::before {
+    left: 0;
+}
+
+.or-divider::after {
+    right: 0;
+}
