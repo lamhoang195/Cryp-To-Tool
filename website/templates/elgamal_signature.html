@@ -14,11 +14,12 @@
     <link rel="stylesheet" href="static/css/tiny-slider.css" />
     <link rel="stylesheet" href="static/css/glightbox.min.css" />
     <link rel="stylesheet" href="static/css/main.css" />
+    <link rel="stylesheet" href="static/css/rsa.css">
 </head>
 <body>
 
 
-  {% include 'head.html' %}
+    {% include 'head.html' %}
 
 
     <div class="breadcrumbs">
@@ -40,36 +41,40 @@
 
     
 
-    <div class="comment-form">
-        <h3 class="comment-reply-title">Leave a comment</h3>
-        <form action="#" method="POST">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="form-box form-group">
-                        <input type="text" name="name" class="form-control form-control-custom" placeholder="Name*" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="form-box form-group">
-                        <input type="email" name="email" class="form-control form-control-custom" placeholder="Email*" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-box form-group">
-                        <textarea name="#" class="form-control form-control-custom" placeholder="Comments*"></textarea>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="button">
-                        <button type="submit" class="btn">Post Comment</button>
-                    </div>
-                </div>
+    <div class="rsa-container">
+        <h2>Encrypt</h2>
+        <p>As a starting point for RSA, choose two prime numbers p and q:</p>
+        <form action="#" method="POST" class="rsa-form">
+            <div class="form-group">
+                <label for="message">Message: </label>
+                <input type="text" id="message" name="message" required />
             </div>
+            <div class="form-group">
+                <label for="p">p = </label>
+                <input type="number" id="p" name="p" required />
+            </div>
+            <div class="form-group">
+                <label for="q">q = </label>
+                <input type="number" id="q" name="q" required />
+            </div>
+            <p class="note">For the algorithm to work, the two prime numbers p and q must be different.</p>
+            <div class="form-group">
+                <label for="e">e = </label>
+                <input type="number" id="e" name="e" required />
+            </div>
+            <button type="submit" class="btn">Submit</button>
         </form>
     </div>
     
 
+    <h2>Encrypted</h2>
+    <div class="rsa-container">
+       <h2>Decrypted</h2> 
+    </div>
+    
+
     {% include 'footer.html' %}
+
     
 </body>
 </html>
