@@ -1,43 +1,90 @@
 {% extends "block.html" %}
-
-{% block title %}RSA Cryptosystem{% endblock %}
-{% block page_title %}RSA Cryptosystem{% endblock %}
-{% block breadcrumb %}RSA Cryptosystem{% endblock %}
-
+{% block title%}cryptoTools{% endblock%}
 {% block content %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/rsa.css') }}">
+        <script src="{{ url_for('static', filename='static/js/rsa.js') }}"></script>
 
-    {% include 'head.html' %}
+        <div class="rsa-container">
+            <h1>RSA Encryption (explained step by step)</h1>
+            <p>Here you can see how to encrypt and decrypt using the RSA procedure step by step.</p>
+            
+            <h2>Step 1: Set prime numbers</h2>
+            <p>As a starting point for RSA, choose two prime numbers <var>p</var> and <var>q</var>:</p>
+            <div class="input-group">
+                <div class="input-item">
+                    <label for="p"><var>p</var> = </label>
+                    <input type="number" id="p" placeholder="Enter prime number">
+                </div>
+                <div class="input-item">
+                    <label for="q"><var>q</var> = </label>
+                    <input type="number" id="q" placeholder="Enter prime number">
+                </div>
+            </div>
+            <div>
+                <button type="submit">Generate Public Key</button>
+            </div>
+            
+            
+            <h2>Step 2: Calculate key values</h2>
+            <p>The next steps will calculate the two keys.</p>
+            <p>Both consist of two numbers, one of which is equal.</p>
+            <p>Private key: (<var>n</var>, <var>d</var>)</p>
+            <p>Public key: (<var>n</var>, <var>e</var>)</p>
     
-    <div class="cryptosystem-container">
-        <h2>Encrypt</h2>
-        <p>As a starting point for RSA, choose two prime numbers p and q:</p>
-        <form action="#" method="POST" class="rsa-form">
-            <div class="form-group">
-                <label for="message">Message: </label>
-                <input type="text" id="message" name="message" required />
+            <h4><var>n</var> (Step 2.1)</h4>
+            <p>To calculate <i>n</i>, simply multiply <i>p</i> and <i>q</i>.</p>
+            <p><var>n</var> = <var>p</var> . <var>q</var></p>
+            <p id="p-q-value"> <var>n</var> = </p>
+            <p id="n-value"><var>n</var> = </p>
+    
+            <h4><var>ϕ(n) </var>(Step 2.2)</h4>
+            <p>To calculate the further values <var>e</var> and <var>d</var> the Euler phi function <var>ϕ</var> is used.
+              It calculates how many numbers coprime to <var>n</var> are there, which are not larger than <var>n</var>. </p>
+            <p> <var>ϕ</var>(<var>n</var>) = (p - 1) . (q - 1) </p>
+            <p id="p-1-q-1-value"><var>ϕ</var>(<var>n</var>) = </p>
+            <p id="phi-value"><var>ϕ</var>(<var>n</var>) = </p>
+    
+            <h4><var>e</var> (Step 2.3)</h4>
+            <p>Choose a number <var>e</var> that is coprime to <var>φ</var>(<var>n</var>) and smaller than it.</p>
+            <label for="e"> <var>e</var> = </label>
+            <input type="number" id="e" placeholder="Enter number">
+            <div>
+                <button type="submit">Generate Private Key</button>
             </div>
-            <div class="form-group">
-                <label for="p">p = </label>
-                <input type="number" id="p" name="p" required />
+    
+            <h4> <var>d</var> (Step 2.4)</h4>
+            <p>The number <var>d</var> is the multiplicative inverse to e</p>
+            <p>Expressed in formulas, the following must apply:</p>
+            <p> (<var>d</var> . <var>e</var>) mod <var>ϕ</var>(<var>n</var>) = 1 </p>
+            <p id="d-value"><var>d</var> = </p>
+    
+            <h4 id = "public-key">Public key: <var>(n,d) = </var></h4>
+            <h4 id = "private-key">Private key: <var>(n,e) = </var></h4>
+            
+            <h2>Step 3: Encrypt</h2>
+            <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
+            <p>It uses the numbers of the public key:</p>
+            <p> <var>c = m <sup>e</sup> mod n</var></p>
+            <p>RSA encrypts only numbers. These must be greater-equal 0 and less than n.</p>
+            <label for="m"> <var>m</var> = </label>
+            <input type="number" id="m" placeholder="Enter number">
+            <div>
+                <button type="submit">Encrypt</button>
             </div>
-            <div class="form-group">
-                <label for="q">q = </label>
-                <input type="number" id="q" name="q" required />
+            <p id="c"> <var>c</var> = </p>
+            <p id="c-value"><var>c</var> = </p>
+    
+            <h2>Step 4: Decrypt</h2>
+            <p>For decryption the inverse formula is applied.</p>
+            <p>It uses the numbers of the private key:</p>
+            <p> <var>m' = c <sup>d</sup> mod n</var></p>
+            <label for="c-decrypt"> <var>c</var> = </label>
+            <input type="number" id="c-decrypt" placeholder="Enter number">
+            <div>
+                <button type="submit">Decrypt</button>
             </div>
-            <p class="note">For the algorithm to work, the two prime numbers p and q must be different.</p>
-            <div class="form-group">
-                <label for="e">e = </label>
-                <input type="number" id="e" name="e" required />
-            </div>
-            <button type="submit" class="btn">Submit</button>
-        </form>
-    </div>
-
-
-    <div class="cryptosystem-container">
-    <h2>Decrypt</h2> 
-    </div>
-
-    {% include 'footer.html' %}
-
-{% endblock %}
+            <p id="m-decrypt"> <var>m'</var> = </p>
+            <p id="m-decrypt-value"><var>m'</var> =</p>
+    
+        </div>
+{%endblock%}
