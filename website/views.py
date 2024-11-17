@@ -15,7 +15,6 @@ def home():
 @login_required
 def rsa():
     return render_template("rsa.html")
-
 @views.route('/elgamal')
 @login_required
 def elgamal():

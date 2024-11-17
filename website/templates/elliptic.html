@@ -1,50 +1,103 @@
 
 {% extends "block.html" %}
 
-{% block title %}Elliptic Cryptosystem{% endblock %}
-{% block page_title %}Elliptic Cryptosystem{% endblock %}
-{% block breadcrumb %}Elliptic Cryptosystem{% endblock %}
+{% block title %}Elliptic Encrypt System{% endblock %}
+{% block page_title %}Elliptic Encrypt System{% endblock %}
+{% block breadcrumb %}Elliptic Encrypt System{% endblock %}
 
 {% block content %}
 
     {% include 'head.html' %}
 
     <div class="cryptosystem-container">
-        <h2>Encrypt</h2>
-        <p>To start with Elliptic Curve, choose a prime number p and two arbitrary numbers a and b.</p>
-        <form action="#" method="POST" class="rsa-form">
-            <div class="form-group">
-                <label for="message">Message: </label>
-                <input type="text" id="message" name="message" required />
-            </div>
-            <div class="form-group">
-                <label for="p">p = </label>
-                <input type="number" id="p" name="p" required />
-            </div>
-            <div class="form-group">
-                <label for="a">a = </label>
-                <input type="number" id="a" name="a" required />
-            </div>
-            <div class="form-group">
-                <label for="b">b = </label>
-                <input type="number" id="b" name="b" required />
-            </div>
-            <p style="font-size: 16px;">With \( 4a^3 + 27b^2 \neq 0 \pmod{p} \)</p>
-            <div class="form-group">
-                <label for="s">s = </label>
-                <input type="number" id="s" name="s" required />
-            </div>
-            <div class="form-group">
-                <label for="k">k = </label>
-                <input type="number" id="k" name="k" required />
-            </div>
-            <button type="submit" class="btn">Submit</button>
-        </form>
-    </div>
+        <h1>ELGamal Encryption - Step by Step Guide</h1>
+        <p>Learn how to encrypt and decrypt using the Elliptic Curve algorithm with this interactive tool.</p>
     
+        <h2>Step 1: Choose Prameters</h2>
+        <div class="calculation-section">
+            <p>Start by selecting a prime numbers <var>p</var>:</p>
+            <div class="input-item">
+                <label for="p"><var>p</var> = </label>
+                <input type="number" id="p" placeholder="Enter a prime number">
+            </div>
+            <p>Choose two number a and b with <span>4<var>a</var><sup>3</sup> + 27<var>b</var><sup>2</sup> &#8800; 0 &#8290; mod <var>p</var></span></p>
+            <div class="input-item">
+                <label for="a"><var>a</var> = </label>
+                <input type="number" id="a" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="b"><var>b</var> = </label>
+                <input type="number" id="b" placeholder="Enter number">
+            </div>
+        </div>
+        <div>
+            <button class="btn" type="submit">Generate Public Key</button>
+        </div>
+    
+        <h2>Step 2: Calculate Key Values</h2>
+        <p>Follow these calculations to generate the keys:</p>
+        <div class="calculation-section">
+            <p>Choose any number s</p>
+            <div class="input-item">
+                <label for="s"><var>s</var> = </label>
+                <input type="number" id="s" placeholder="Enter number">
+            </div>
+            <p>Choose P as a point on the curve</p>
+            <div class="input-item">
+                <label for="x"><var>P</var> = </label>
+                <input type="number" id="x" placeholder="Enter number">
+            </div>
+            <p>Caculator <var>B</var> = <var>s</var>.<var>P</var></p>
+            <p id="beta-value"><var>β</var> = </p>
+            <div>
+                <p id="public-key">Public key: <var>(p, a, b, P, B)</var> = </p>
+                <p id="private-key">Private key: <var>(s)</var> = </p>
+            </div>
+        </div>
+    
+        <h2>Step 3: Encrypt</h2>
+        <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
+        <div class="calculation-section">
+            <p>It uses the numbers of the public key:</p>
+            <p>Choose any positive integer k</p>
+            <div class="input-item">
+                <label for="k"><var>k</var> = </label>
+                <input type="number" id="k" placeholder="Enter number">
+            </div>
+            <p>Choose point M</p>
+            <div class="input-item">
+                <label for="mm"><var>M</var> = </label>
+                <input type="number" id="mm" placeholder="Enter number">
+            </div>
+            <p>Caculator <var>M1</var> = <var>k</var>.<var>P</var> mod <var>p</var></p>
+            <p>Caculator <var>M2</var> = (<var>M</var> + <var>k</var>.<var>B</var>) mod <var>p</var></p>
+            <label for="m"> <var>m</var> = </label>
+            <input type="number" id="m" placeholder="Enter message m">
+            <div>
+                <button class="btn" type="submit">Encrypt</button>
+            </div>
+            <p id="m1-value"><var>M1</var> = </p>
+            <p id="m2-value"><var>M2</var> = </p>
+        </div>
 
-    <div class="cryptosystem-container">
-       <h2>Decrypt</h2> 
+        <h2>Step 4: Decrypt</h2>
+        <p>For decryption the inverse formula is applied.</p>
+        <div class="calculation-section">
+            <p>It uses the numbers of the private key:</p>
+            <p><var>m</var> = (<var>M2</var> - <var>s</var>.<var>M1</var>) mod <var>p</var></p>
+            <div class="input-item">
+                <label for="m1-decrypt"> <var>M1</var> = </label>
+                <input type="number" id="m1-decrypt" placeholder="Enter ciphertext M1">
+            </div>
+            <div class="input-item">
+                <label for="m2-decrypt"> <var>M2</var> = </label>
+                <input type="number" id="m2-decrypt" placeholder="Enter ciphertext M2">
+            </div>    
+            <div>
+                <button class="btn" type="submit">Decrypt</button>
+            </div>
+            <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
+        </div>    
     </div>
     
     <script type="text/javascript" async

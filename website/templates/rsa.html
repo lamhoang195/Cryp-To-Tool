@@ -1,43 +1,98 @@
 {% extends "block.html" %}
 
-{% block title %}RSA Cryptosystem{% endblock %}
-{% block page_title %}RSA Cryptosystem{% endblock %}
-{% block breadcrumb %}RSA Cryptosystem{% endblock %}
+{% block title %}RSA Encrypt System {% endblock %}
+{% block page_title %}RSA Encrypt System {% endblock %}
+{% block breadcrumb %}RSA Encrypt System {% endblock %}
 
 {% block content %}
 
-    {% include 'head.html' %}
-    
-    <div class="cryptosystem-container">
-        <h2>Encrypt</h2>
-        <p>As a starting point for RSA, choose two prime numbers p and q:</p>
-        <form action="#" method="POST" class="rsa-form">
-            <div class="form-group">
-                <label for="message">Message: </label>
-                <input type="text" id="message" name="message" required />
-            </div>
-            <div class="form-group">
-                <label for="p">p = </label>
-                <input type="number" id="p" name="p" required />
-            </div>
-            <div class="form-group">
-                <label for="q">q = </label>
-                <input type="number" id="q" name="q" required />
-            </div>
-            <p class="note">For the algorithm to work, the two prime numbers p and q must be different.</p>
-            <div class="form-group">
-                <label for="e">e = </label>
-                <input type="number" id="e" name="e" required />
-            </div>
-            <button type="submit" class="btn">Submit</button>
-        </form>
-    </div>
+
+        {% include 'head.html' %}
 
 
-    <div class="cryptosystem-container">
-    <h2>Decrypt</h2> 
-    </div>
+        <div class="cryptosystem-container">
+            <h1>RSA Encryption - Step by Step Guide</h1>
+            <p>Learn how to encrypt and decrypt using the RSA algorithm with this interactive tool.</p>
+        
+            <h2>Step 1: Choose Prime Numbers</h2>
+            <p>Start by selecting two prime numbers <var>p</var> and <var>q</var>:</p>
+            <div class="calculation-section">
+                <div class="input-item">
+                    <label for="p"><var>p</var> = </label>
+                    <input type="number" id="p" placeholder="Enter a prime number">
+                </div>
+                <div class="input-item">
+                    <label for="q"><var>q</var> = </label>
+                    <input type="number" id="q" placeholder="Enter a prime number">
+                </div>
+            </div>
+            <div>
+                <button class="btn" type="submit">Generate Public Key</button>
+            </div>
+        
+            <h2>Step 2: Calculate Key Values</h2>
+            <p>Follow these calculations to generate the keys:</p>
+            <div class="calculation-section">
+                <h3><var>n</var> (Step 2.1)</h3>
+                <p>Calculate <var>n</var> by multiplying <var>p</var> and <var>q</var>:</p>
+                <p><var>n</var> = <var>p</var> × <var>q</var></p>
+                <p id="n-value">Result: <var>n</var> = </p>
+        
+                <h3><var>ϕ(n)</var> (Step 2.2)</h3>
+                <p>To calculate the further values <var>e</var> and <var>d</var> the Euler phi function <var>ϕ</var> is used.
+                    It calculates how many numbers coprime to <var>n</var> are there, which are not larger than <var>n</var>. </p>
+                <p><var>ϕ(n)</var> = (<var>p</var> - 1) × (<var>q</var> - 1)</p>
+                <p id="phi-value"><var>ϕ</var>(<var>n</var>) = </p>
+        
+                <h3><var>e</var> (Step 2.3)</h3>
+                <p>Choose a number <var>e</var> that is coprime to <var>φ</var>(<var>n</var>) and smaller than it.</p>
+                <label for="e"> <var>e</var> = </label>
+                <input type="number" id="e" placeholder="Enter number">
+                <div>
+                    <button class="btn" type="submit">Generate Private Key</button>
+                </div>
+        
+                <h3><var>d</var> (Step 2.4)</h3>
+                <p>The number <var>d</var> is the multiplicative inverse to e</p>
+                <p>Expressed in formulas, the following must apply:</p>
+                <p>Find <var>d</var> such that (<var>d</var> × <var>e</var>) mod <var>ϕ(n)</var> = 1:</p>
+                <p id="d-value">Result: <var>d</var> = </p>
 
-    {% include 'footer.html' %}
+                <div>
+                    <p id="public-key">Public key: <var>(n, d)</var> = </p>
+                    <p id="private-key">Private key: <var>(n, e)</var> = </p>
+                </div>
+            </div>
+        
+            <h2>Step 3: Encrypt</h2>
+            <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
+            <div class="calculation-section">
+                <p>It uses the numbers of the public key:</p>
+                <p><var>c</var> = (<var>m</var> ^ <var>e</var>) mod <var>n</var></p>
+                <p>RSA encrypts only numbers. These must be greater-equal 0 and less than n.</p>
+                <label for="m"> <var>m</var> = </label>
+                <input type="number" id="m" placeholder="Enter message m">
+                <div>
+                    <button class="btn" type="submit">Encrypt</button>
+                </div>
+                <p id="c-value">Encrypted: <var>c</var> = </p>
+            </div>
 
-{% endblock %}
+            <h2>Step 4: Decrypt</h2>
+            <p>For decryption the inverse formula is applied.</p>
+            <div class="calculation-section">
+                <p>It uses the numbers of the private key:</p>
+                <p><var>m</var> = (<var>c</var> ^ <var>d</var>) mod <var>n</var></p>
+                <label for="c-decrypt"> <var>c</var> = </label>
+                <input type="number" id="c-decrypt" placeholder="Enter ciphertext c">
+                <div>
+                    <button class="btn" type="submit">Decrypt</button>
+                </div>
+                <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
+            </div>    
+        </div>
+        
+        
+
+        {% include 'footer.html' %}
+{%endblock%}

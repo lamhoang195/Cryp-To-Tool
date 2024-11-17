@@ -1,8 +1,8 @@
 {% extends "block.html" %}
 
-{% block title %}ELGamal Cryptosystem{% endblock %}
-{% block page_title %}ELGamal Cryptosystem{% endblock %}
-{% block breadcrumb %}ELGamal Cryptosystem{% endblock %}
+{% block title %}ELGamal Encrypt System{% endblock %}
+{% block page_title %}ELGamal Encrypt System{% endblock %}
+{% block breadcrumb %}ELGamal Encrypt System{% endblock %}
 
 {% block content %}
 
@@ -10,38 +10,80 @@
     {% include 'head.html' %}
 
     <div class="cryptosystem-container">
-        <h2>Encrypt</h2>
-        <p>To start with ElGamal, choose a prime number p.</p>
-        <form action="#" method="POST" class="rsa-form">
-            <div class="form-group">
-                <label for="message">Message: </label>
-                <input type="text" id="message" name="message" required />
-            </div>
-            <div class="form-group">
-                <label for="p">p = </label>
-                <input type="number" id="p" name="p" required />
-            </div>
-            <div class="form-group">
-                <label for="alpha">alpha = </label>
-                <input type="number" id="alpha" name="alpha" required />
-            </div>
-            <p class="note">With alpha as the primitive element for Zp.</p>
-            <div class="form-group">
-                <label for="a">a = </label>
-                <input type="number" id="a" name="a" required />
-            </div>
-            <div class="form-group">
-                <label for="k">k = </label>
-                <input type="number" id="k" name="k" required />
-            </div>
-
-            <button type="submit" class="btn">Submit</button>
-        </form>
-    </div>
+        <h1>ELGamal Encryption - Step by Step Guide</h1>
+        <p>Learn how to encrypt and decrypt using the ELGamal algorithm with this interactive tool.</p>
     
+        <h2>Step 1: Choose Prameters</h2>
+        <div class="calculation-section">
+            <p>Start by selecting a prime numbers <var>p</var>:</p>
+            <div class="input-item">
+                <label for="p"><var>p</var> = </label>
+                <input type="number" id="p" placeholder="Enter a prime number">
+            </div>
+            <p>Choose a number 𝛼 such that α is a primitive element</p>
+            <div class="input-item">
+                <label for="alpha"><var>α</var> = </label>
+                <input type="number" id="alpha" placeholder="Enter number">
+            </div>
+            <p>Choose any positive integer a</p>
+            <div class="input-item">
+                <label for="a"><var>a</var> = </label>
+                <input type="number" id="a" placeholder="Enter number">
+            </div>
+        </div>
+        <div>
+            <button class="btn" type="submit">Generate Public Key</button>
+        </div>
+    
+        <h2>Step 2: Calculate Key Values</h2>
+        <p>Follow these calculations to generate the keys:</p>
+        <div class="calculation-section">
+            <p>Caculator <var>β</var> = <var>α</var><sup><var>a</var></sup> mod <var>p</var></p>
+            <p id="beta-value"><var>β</var> = </p>
+            <div>
+                <p id="public-key">Public key: <var>(p, <var>α</var>, <var>β</var>)</var> = </p>
+                <p id="private-key">Private key: <var>(a)</var> = </p>
+            </div>
+        </div>
+    
+        <h2>Step 3: Encrypt</h2>
+        <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
+        <div class="calculation-section">
+            <p>It uses the numbers of the public key:</p>
+            <p>Choose any positive integer k</p>
+            <div class="input-item">
+                <label for="k"><var>k</var> = </label>
+                <input type="number" id="k" placeholder="Enter number">
+            </div>
+            <p>Caculator <var>c1</var> = <var>α</var><sup><var>k</var></sup> mod <var>p</var></p>
+            <p>Caculator <var>c2</var> = <var>m</var>.</var><var>β</var><sup><var>a</var></sup> mod <var>p</var></p>
+            <label for="m"> <var>m</var> = </label>
+            <input type="number" id="m" placeholder="Enter message m">
+            <div>
+                <button class="btn" type="submit">Encrypt</button>
+            </div>
+            <p id="c1-value"><var>c1</var> = </p>
+            <p id="c2-value"><var>c2</var> = </p>
+        </div>
 
-    <div class="cryptosystem-container">
-       <h2>Decrypt</h2> 
+        <h2>Step 4: Decrypt</h2>
+        <p>For decryption the inverse formula is applied.</p>
+        <div class="calculation-section">
+            <p>It uses the numbers of the private key:</p>
+            <p><var>m</var> = (<var>c2</var>.(<var>c1</var><sup><var>a</var></sup>)<sup>-1</sup>) mod <var>p</var></p>
+            <div class="input-item">
+                <label for="c1-decrypt"> <var>c1</var> = </label>
+                <input type="number" id="c1-decrypt" placeholder="Enter ciphertext c1">
+            </div>
+            <div class="input-item">
+                <label for="c2-decrypt"> <var>c2</var> = </label>
+                <input type="number" id="c2-decrypt" placeholder="Enter ciphertext c2">
+            </div>    
+            <div>
+                <button class="btn" type="submit">Decrypt</button>
+            </div>
+            <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
+        </div>    
     </div>
     
 

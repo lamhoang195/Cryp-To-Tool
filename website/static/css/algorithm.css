@@ -1,64 +1,93 @@
-/* CSS cho phần RSA */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f0f4f8;
+}
+
 .cryptosystem-container {
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.cryptosystem-container h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.cryptosystem-container p {
-    font-size: 16px;
-    color: #555;
-}
-
-.cryptosystem-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    font-size: 16px;
-    color: #333;
-    margin-right: 10px;
-}
-
-.form-group input {
-    width: 400px;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.note {
-    font-size: 14px;
-    color: #777;
-    margin-top: -10px;
+.cryptosystem-container h1 {
+    font-size: 36px;
+    text-align: center;
+    color: #007bff;
     margin-bottom: 20px;
 }
 
+.cryptosystem-containerr h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #444;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.cryptosystem-container h3 {
+    font-size: 20px;
+    color: #555;
+    margin-top: 20px;
+}
+
+.cryptosystem-container p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    gap: 20px; /* Increase gap between the input fields */
+}
+
+.input-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between the label and input field */
+    margin-bottom: 20px; /* Add space between the input fields */
+}
+
+input[type="number"] {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của container */
+    max-width: 500px; /* Đặt giới hạn chiều rộng tối đa */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
 .btn {
-    padding: 10px 20px;
-    background-color: #007bff;
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 18px;
     color: #fff;
+    background-color: #007bff;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Thêm khoảng cách dưới nút */
+    text-align: center;
 }
 
 .btn:hover {
     background-color: #0056b3;
+}
+
+.calculation-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 30px;
 }
