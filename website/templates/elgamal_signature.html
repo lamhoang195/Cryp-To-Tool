@@ -8,35 +8,108 @@
 
     {% include 'head.html' %}
 
-    <div class="rsa-container">
-        <h2>Encrypt</h2>
-        <p>As a starting point for RSA, choose two prime numbers p and q:</p>
-        <form action="#" method="POST" class="rsa-form">
-            <div class="form-group">
-                <label for="message">Message: </label>
-                <input type="text" id="message" name="message" required />
-            </div>
-            <div class="form-group">
-                <label for="p">p = </label>
-                <input type="number" id="p" name="p" required />
-            </div>
-            <div class="form-group">
-                <label for="q">q = </label>
-                <input type="number" id="q" name="q" required />
-            </div>
-            <p class="note">For the algorithm to work, the two prime numbers p and q must be different.</p>
-            <div class="form-group">
-                <label for="e">e = </label>
-                <input type="number" id="e" name="e" required />
-            </div>
-            <button type="submit" class="btn">Submit</button>
-        </form>
-    </div>
+    <div class="cryptosystem-container">
+        <h1>ELGamal Signature - Step by Step Guide</h1>
+        <p>Learn how to encrypt and decrypt using the ELGamal Signature with this interactive tool.</p>
     
+        <h2>Step 1: Choose Prime Number A</h2>
+        <p>Start by selecting two prime numbers <var>p</var> and <var>q</var>:</p>
+        <div class="calculation-section">
+            <p>Start by selecting a prime numbers <var>p</var>:</p>
+            <div class="input-item">
+                <label for="p_a"><var>p<sub>A</sub></var> = </label>
+                <input type="number" id="p_a" placeholder="Enter a prime number">
+            </div>
+            <p>Choose a number 𝛼 such that α is a primitive element</p>
+            <div class="input-item">
+                <label for="alpha_a"><var>α<sub>A</sub></var> = </label>
+                <input type="number" id="alpha_a" placeholder="Enter a prime number">
+            </div>
+            <p>Choose any positive integer a</p>
+            <div class="input-item">
+                <label for="a_a"><var>a<sub>A</sub></var> = </label>
+                <input type="number" id="a_a" placeholder="Enter a prime number">
+            </div>
+        </div>
+        <div>
+            <button class="btn" type="submit">Generate Public Key A</button>
+        </div>
+    
+        <h2>Step 2: Calculate Key Values A</h2>
+        <p>Follow these calculations to generate the keys:</p>
+        <div class="calculation-section">
+            <p>Caculator <var>β<sub>A</sub></var> = <var>α</var><sup><var>a</var></sup> mod <var>p</var></p>
+            <p id="beta_a"><var>β<sub>A</sub></var> = </p>
+            <div>
+                <p id="public-key-a">Public key A: <var>(p, <var>α</var>, <var>β</var>)</var> = </p>
+                <p id="private-key-a">Private key A: <var>(a)</var> = </p>
+            </div>
+        </div>
+    
+        <h2>Step 3: Public key B</h2>
+        <p>Follow these calculations to generate the keys:</p>
+        <div class="calculation-section">
+            <div class="input-item">
+                <label for="p_b"><var>p<sub>B</sub></var> = </label>
+                <input type="number" id="p_b" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="alpha_b"><var>α<sub>B</sub></var> = </label>
+                <input type="number" id="alpha_b" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="beta_b"><var>β<sub>B</sub></var> = </label>
+                <input type="number" id="beta_b" placeholder="Enter number">
+            </div>
+        </div>
+    
+        <h2>Step 4: Encrypt message by public key B</h2>
+        <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
+        <div class="calculation-section">
+            <p>It uses the numbers of the public key B:</p>
+            <p>Choose any positive integer k</p>
+            <div class="input-item">
+                <label for="k"><var>k</var> = </label>
+                <input type="number" id="k" placeholder="Enter number">
+            </div>
+            <p>Caculator <var>c1</var> = <var>α<sub>B</sub></var><sup><var>k</var></sup> mod <var>p</var></p>
+            <p>Caculator <var>c2</var> = <var>m</var>.</var><var>β<sub>B</sub></var><sup><var>k</var></sup> mod <var>p</var></p>
+            <label for="m"> <var>m</var> = </label>
+            <input type="number" id="m" placeholder="Enter message m">
+            <div>
+                <button class="btn" type="submit">Encrypt</button>
+            </div>
+            <p id="c1-value"><var>c1</var> = </p>
+            <p id="c2-value"><var>c2</var> = </p>
+        </div>
+        
+        <h2>Step 5: Encrypt Signature by private key A</h2>
+        <div class="calculation-section">
+            <p><var>γ</var> = (<var>a<sub>A</sub></var><sup>k</sup>) mod <var>p<sub>A</sub></var></p>
+            <p><var>σ</var> = (<var>m</var> - <var>a<sub>A</sub></var>.<var>γ</var>) mod (<var>p<sub>A</sub></var> - 1)</p>
+            <div>
+                <button class="btn" type="submit">Encrypt Signature</button>
+            </div>
+            <p id="m-encrypt-value">Encrypt Signature: </p>
+        </div>
+        
+        <h2>Step 6: Verify Signature by public key A</h2>
+        <div class="calculation-section">
+            <p><var>β<sub>A</sub></var><sup>γ</sup>.<var>γ</var><sup>σ</sup> ≡ <var>α</var><sup>m</sup> mod <var>p</var><sub>A</sub></p>
+            <div>
+                <button class="btn" type="submit">Verify</button>
+            </div>
+            <p id="m-decrypt-value">Verify: </p>
+        </div>
 
-    <h2>Encrypted</h2>
-    <div class="rsa-container">
-       <h2>Decrypted</h2> 
+        <h2>Step 7: Decrypt messange by private key B</h2>
+        <div class="calculation-section">
+            <p><var>m</var> = (<var>c<sub>1</sub></var><sup>p<sub>B</sub> - <var>a<sub>B</sub> - 1</var></sup>.<var>c<sub>2</sub></var>) mod <var>p<sub>B</sub></var></p>
+            <div>
+                <button class="btn" type="submit">Decrypt</button>
+            </div>
+            <p id="m-decrypt-value">Decrypt: <var>m</var> = </p>
+        </div>
     </div>
     
 
