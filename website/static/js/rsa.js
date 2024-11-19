@@ -133,7 +133,9 @@ if(convertBtn){
     if (data.error) {
         alert(data.error);
     } else {
-        document.getElementById("plaintext").innerText = `Plaintext: ${data.plain}`;
+        document.getElementById(
+          "plaintext"
+        ).innerText = `Plaintext: ${data.plain}`;
     }
 });
 }

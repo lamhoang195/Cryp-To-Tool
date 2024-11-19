@@ -48,7 +48,7 @@ def encrypt():
             return jsonify({'error': 'Message m must be between 0 and n-1.'})
         public_key = RSACryptoPublicKey(n, e)
         c = RSA.encrypt(public_key, m)
-        return jsonify({'c': c})
+        return jsonify({'c': str(c)})
     except Exception as e:
         return jsonify({'error': str(e)})
 
@@ -62,7 +62,7 @@ def decrypt():
         n = int(request.form['n'])
         private_key = RSACryptoPrivateKey(n, d)
         m = RSA.decrypt(private_key, c)
-        return jsonify({'m': m})
+        return jsonify({'m': str(m)})
     except Exception as e:
         return jsonify({'error': str(e)})
 @rsa.route('/', methods=['POST'])
