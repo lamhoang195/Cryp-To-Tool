@@ -1,8 +1,11 @@
 from .Plaintext import Plaintext, Plaintext as Signature
 import unittest
-from typing import override
+from typing import Generic, TypeVar
 
-class SignatureSystem[SignatureSignerKey, SignatureVerifierKey]:
+SignatureSignerKey = TypeVar("SignatureSignerKey")
+SignatureVerifierKey = TypeVar("SignatureVerifierKey")
+
+class SignatureSystem(Generic[SignatureSignerKey, SignatureVerifierKey]):
     def generate_keypair(self) -> tuple[SignatureSignerKey, SignatureVerifierKey]:
         raise NotImplementedError
     
@@ -21,11 +24,10 @@ class SignatureSystem[SignatureSignerKey, SignatureVerifierKey]:
     def str2plaintext_verifier(self, verifier_key: SignatureVerifierKey, string: str) -> Plaintext:
         raise NotImplementedError
 
-class SignatureSystemTest[SignatureSignerKey, SignatureVerifierKey](unittest.TestCase):
+class SignatureSystemTest(Generic[SignatureSignerKey, SignatureVerifierKey],unittest.TestCase):
     def create_signature_system(self) -> SignatureSystem[SignatureSignerKey, SignatureVerifierKey]:
         raise NotImplementedError
     
-    @override
     def setUp(self):
         try:
             self.signature_system = self.create_signature_system()

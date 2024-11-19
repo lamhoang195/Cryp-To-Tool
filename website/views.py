@@ -10,7 +10,6 @@ def index():
 @views.route('/home')
 def home():
     return render_template("index.html")
-
 @views.route('/rsa')
 @login_required
 def rsa():

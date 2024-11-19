@@ -7,8 +7,6 @@ LEFT_PADDING_SIZE = 5
 import sys
 sys.set_int_max_str_digits(2147483647)
 
-
-from typing import override
 from random import randrange
 
 from ..Mathematic.extended_euclidean import inverse
@@ -45,7 +43,7 @@ class ElGamalCiphertext:
         self.cipher_pairs = list(cipher_pairs)
     
     def __repr__(self) -> str:
-        return f"ElGamalCiphertext(\n    {'\n    '.join([str(x) for x in self.cipher_pairs])}\n)"
+        return f"ElGamalCiphertext({[str(x) for x in self.cipher_pairs]})"
 
 def ElGamal_generate_keypair(pbits: int) -> tuple[tuple[int, int, int], tuple[int, int], dict[int, int]]:
     p, fact_of_p_minus_1 = random_prime_with_fact_of_p_minus_1(lbound=f"{pbits}b", ubound=f"{pbits + 1}b")
@@ -81,7 +79,6 @@ class ElGamalCryptoSystem(CryptoSystem[
     ElGamalCryptoPrivateKey,
     ElGamalCiphertext,
 ]):
-    @override
     def generate_keypair(self) -> tuple[ElGamalCryptoPublicKey, ElGamalCryptoPrivateKey]:
         # Note: if pbits is too small, the cryptosystem may not work properly
         # (e.g. the plaintext may not be able to be encrypted or decrypted properly)
@@ -89,7 +86,6 @@ class ElGamalCryptoSystem(CryptoSystem[
         (p, alpha, beta), (p, a), fact_of_p_minus_1 = ElGamal_generate_keypair(CRYPTO_BITS)
         return ElGamalCryptoPublicKey(p, alpha, beta, fact_of_p_minus_1), ElGamalCryptoPrivateKey(p, a)
     
-    @override
     def ask_public_key_interactively(self, prompt: str|None = None) -> ElGamalCryptoPublicKey:
         print(prompt)
         p = int(input("Enter p: "))
@@ -97,12 +93,10 @@ class ElGamalCryptoSystem(CryptoSystem[
         beta = int(input("Enter beta: "))
         return ElGamalCryptoPublicKey(p, alpha, beta, fact(p - 1)) # TODO: do partner need to share fact_of_p_minus_1?
     
-    @override
     def ask_plain_text_interactively(self, public_key: ElGamalCryptoPublicKey, prompt: str|None = None) -> Plaintext:
         s = input((prompt or "Enter plaintext") + " (as string): ")
         return Plaintext.from_string(s)
 
-    @override
     def ask_cipher_text_interactively(self, private_key: ElGamalCryptoPrivateKey, prompt: str|None = None) -> ElGamalCiphertext:
         print(prompt)
         N = int(input("Enter number of pairs: "))
@@ -114,7 +108,6 @@ class ElGamalCryptoSystem(CryptoSystem[
             cipher_pairs.append(ElGamalCiphertextPair(y1, y2))
         return ElGamalCiphertext(cipher_pairs)
     
-    @override
     def encrypt(self, public_key: ElGamalCryptoPublicKey, plain_text: Plaintext) -> ElGamalCiphertext:
         p, alpha, beta, fact_of_p_minus_1 = public_key.p, public_key.alpha, public_key.beta, public_key.fact_of_p_minus_1
         def encrypt_number(plain_number: int) -> ElGamalCiphertextPair:
@@ -133,7 +126,6 @@ class ElGamalCryptoSystem(CryptoSystem[
         cipher_pairs = [ encrypt_number(plain_number) for plain_number in plain_text.numbers ]
         return ElGamalCiphertext(cipher_pairs)
     
-    @override
     def decrypt(self, private_key: ElGamalCryptoPrivateKey, cipher_text: ElGamalCiphertext) -> Plaintext:
         p, a = private_key.p, private_key.a
         def decrypt_number(cipher_pair: ElGamalCiphertextPair) -> int:
@@ -149,17 +141,13 @@ class ElGamalCryptoSystem(CryptoSystem[
         
         plain_numbers = [ decrypt_number(cipher_pair) for cipher_pair in cipher_text.cipher_pairs ]
         return Plaintext(plain_numbers)
-
-    @override
     def str2plaintext(self, public_key: ElGamalCryptoPublicKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
     
-    @override
     def plaintext2str(self, private_key: ElGamalCryptoPrivateKey, plain_text: Plaintext) -> str:
         return plain_text.to_string()
 
 class ElGamalCryptoSystemTest(CryptoSystemTest[ElGamalCryptoPublicKey, ElGamalCryptoPrivateKey, ElGamalCiphertext]):
-    @override
     def create_crypto_system(self) -> ElGamalCryptoSystem:
         return ElGamalCryptoSystem()
 def run_CryptoElGamal():

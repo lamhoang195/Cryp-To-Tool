@@ -1,8 +1,15 @@
 from .CryptoSystem import CryptoSystem
 from .CryptoSystem import CryptoSystem
 from .SignatureSystem import SignatureSystem
+from typing import TypeVar, Generic
 
-class PubkeyCommunicationDriver[CryptoPublicKey, CryptoPrivateKey, Ciphertext, SignatureSignerKey, SignatureVerifierKey]:
+CryptoPublicKey = TypeVar("CryptoPublicKey")
+CryptoPrivateKey = TypeVar("CryptoPrivateKey")
+Ciphertext = TypeVar("Ciphertext")
+SignatureSignerKey = TypeVar("SignatureSignerKey")
+SignatureVerifierKey = TypeVar("SignatureVerifierKey")
+
+class CryptoCommunicationDriver(Generic[CryptoPublicKey, CryptoPrivateKey, Ciphertext, SignatureSignerKey, SignatureVerifierKey]):
     def __init__(
         self,
         crypto_system: CryptoSystem[CryptoPublicKey, CryptoPrivateKey, Ciphertext],
@@ -77,7 +84,7 @@ class PubkeyCommunicationDriver[CryptoPublicKey, CryptoPrivateKey, Ciphertext, S
         print(f"{signature_x}")
         print()
 
-class PubkeyCryptoCommunicationDriver[CryptoPublicKey, CryptoPrivateKey, Ciphertext]:
+class CryptoCommunicationDriver(Generic[CryptoPublicKey, CryptoPrivateKey, Ciphertext]):
     def __init__(
         self,
         crypto_system: CryptoSystem[CryptoPublicKey, CryptoPrivateKey, Ciphertext],

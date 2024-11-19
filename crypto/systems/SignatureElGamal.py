@@ -3,7 +3,6 @@ SIGNATURE_BITS = 128 # Signature bits must be less than CRYPTO_BITS, otherwise t
 import sys
 sys.set_int_max_str_digits(2147483647)
 
-from typing import override
 from random import randrange
 
 from ..Mathematic.extended_euclidean import inverse
@@ -44,12 +43,9 @@ class ElGamalSignatureSystem(SignatureSystem[
     ElGamalSignatureSignerKey,
     ElGamalSignatureVerifierKey,
 ]):
-    @override
     def generate_keypair(self) -> tuple[ElGamalSignatureSignerKey, ElGamalSignatureVerifierKey]:
         (p, alpha, beta), (p, a), fact_of_p_minus_1 = ElGamal_generate_keypair(SIGNATURE_BITS)
         return ElGamalSignatureSignerKey(p, alpha, a, fact_of_p_minus_1), ElGamalSignatureVerifierKey(p, alpha, beta, fact_of_p_minus_1)
-    
-    @override
     def ask_verification_key_interactively(self, prompt: str|None = None) -> ElGamalSignatureVerifierKey:
         print(prompt)
         p = int(input("Enter p: "))
@@ -57,7 +53,6 @@ class ElGamalSignatureSystem(SignatureSystem[
         beta = int(input("Enter beta: "))
         return ElGamalSignatureVerifierKey(p, alpha, beta, fact(p - 1)) # TODO: do partner need to share fact_of_p_minus_1?
     
-    @override
     def sign(self, signer_key: ElGamalSignatureSignerKey, plain_text: Plaintext) -> Plaintext:
         p, alpha, a, fact_of_p_minus_1 = signer_key.p, signer_key.alpha, signer_key.a, signer_key.fact_of_p_minus_1
         p_1 = p - 1
@@ -85,8 +80,6 @@ class ElGamalSignatureSystem(SignatureSystem[
             signature_numbers.extend(sign_number(plain_number))
         # signature_numbers.extend(sign_number(len(plain_text.plain_numbers)))
         return Plaintext(signature_numbers)
-        
-    @override
     def verify(self, verifier_key: ElGamalSignatureVerifierKey, plain_text: Plaintext, signature: Plaintext) -> bool:
         p, alpha, beta, fact_of_p_minus_1 = verifier_key.p, verifier_key.alpha, verifier_key.beta, verifier_key.fact_of_p_minus_1
 
@@ -121,16 +114,13 @@ class ElGamalSignatureSystem(SignatureSystem[
         #     return False
         return True
     
-    @override
     def str2plaintext_signer(self, signer_key: ElGamalSignatureSignerKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
     
-    @override
     def str2plaintext_verifier(self, verifier_key: ElGamalSignatureVerifierKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
 
 class ElGamalSignatureSystemTest(SignatureSystemTest[ElGamalSignatureSignerKey, ElGamalSignatureVerifierKey]):
-    @override
     def create_signature_system(self) -> ElGamalSignatureSystem:
         return ElGamalSignatureSystem()
 
