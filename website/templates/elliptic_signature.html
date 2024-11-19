@@ -10,32 +10,119 @@
 
     {% include 'head.html' %} 
 
-    <div class="comment-form">
-        <h3 class="comment-reply-title">Leave a comment</h3>
-        <form action="#" method="POST">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="form-box form-group">
-                        <input type="text" name="name" class="form-control form-control-custom" placeholder="Name*" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="form-box form-group">
-                        <input type="email" name="email" class="form-control form-control-custom" placeholder="Email*" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-box form-group">
-                        <textarea name="#" class="form-control form-control-custom" placeholder="Comments*"></textarea>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="button">
-                        <button type="submit" class="btn">Post Comment</button>
-                    </div>
-                </div>
+
+    <div class="cryptosystem-container">
+        <h1>Elliptic ELGamal Signature - Step by Step Guide</h1>
+        <p>Learn how to encrypt and decrypt using the Elliptic ELGamal Signature with this interactive tool.</p>
+    
+        <h2>Step 1: Choose Prime Number A</h2>
+        <p>Start by selecting two prime numbers <var>p</var> and <var>q</var>:</p>
+        <div class="calculation-section">
+            <p>Start by selecting a prime numbers <var>p</var>:</p>
+            <div class="input-item">
+                <label for="p-a"><var>p</var><sub>A</sub> = </label>
+                <input type="number" id="p" placeholder="Enter a prime number">
             </div>
-        </form>
+            <p>Choose two number a and b with <span>4<var>a</var><sup>3</sup> + 27<var>b</var><sup>2</sup> &#8800; 0 &#8290; mod <var>p</var></span></p>
+            <div class="input-item">
+                <label for="a-a"><var>a</var><sub>A</sub> = </label>
+                <input type="number" id="a-a" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="b-a"><var>b</var><sub>A</sub> = </label>
+                <input type="number" id="b-a" placeholder="Enter number">
+            </div>
+        </div>
+        <div>
+            <button class="btn" type="submit">Generate Public Key A</button>
+        </div>
+    
+        <h2>Step 2: Calculate Key Values A</h2>
+        <p>Follow these calculations to generate the keys:</p>
+        <div class="calculation-section">
+            <p>Choose any number s</p>
+            <div class="input-item">
+                <label for="s"><var>s</var><sub>A</sub> = </label>
+                <input type="number" id="s" placeholder="Enter number">
+            </div>
+            <p>Choose P as a point on the curve</p>
+            <div class="input-item">
+                <label for="x"><var>P</var><sub>A</sub> = </label>
+                <input type="number" id="x" placeholder="Enter number">
+            </div>
+            <p>Caculator <var>B</var><sub>A</sub> = <var>s</var>.<var>P</var></p>
+            <p id="beta-value"><var>B</var><sub>A</sub> = </p>
+            <div>
+                <p id="public-key">Public key: <var>(p, a, b, P, B)</var> = </p>
+                <p id="private-key">Private key: <var>(s)</var> = </p>
+            </div>
+        </div>
+    
+        <h2>Step 3: Public key B</h2>
+        <p>Follow these calculations to generate the keys:</p>
+        <div class="calculation-section">
+            <div class="input-item">
+                <label for="p_b"><var>p<sub>B</sub></var> = </label>
+                <input type="number" id="p_b" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="alpha_b"><var>a<sub>B</sub></var> = </label>
+                <input type="number" id="alpha_b" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="beta_b"><var>b<sub>B</sub></var> = </label>
+                <input type="number" id="beta_b" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="beta_b"><var>P<sub>B</sub></var> = </label>
+                <input type="number" id="beta_b" placeholder="Enter number">
+            </div>
+            <div class="input-item">
+                <label for="beta_b"><var>B<sub>B</sub></var> = </label>
+                <input type="number" id="beta_b" placeholder="Enter number">
+            </div>
+        </div>
+    
+        <h2>Step 4: Encrypt message by public key B</h2>
+        <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
+        <div class="calculation-section">
+            <p>It uses the numbers of the public key B:</p>
+            <p>Choose any positive integer k</p>
+            <div class="input-item">
+                <label for="k"><var>k</var> = </label>
+                <input type="number" id="k" placeholder="Enter number">
+            </div>
+            <p>Choose point M</p>
+            <div class="input-item">
+                <label for="mm"><var>M</var> = </label>
+                <input type="number" id="mm" placeholder="Enter number">
+            </div>
+            <p>Caculator <var>M1</var> = <var>k</var>.<var>P</var><sub>B</sub></p>
+            <p>Caculator <var>M2</var> = <var>M</var> + <var>k</var>.<var>B</var><sub>B</sub></p>
+            <label for="m"> <var>m</var> = </label>
+            <input type="number" id="m" placeholder="Enter message m">
+            <div>
+                <button class="btn" type="submit">Encrypt</button>
+            </div>
+            <p id="c1-value"><var>M1</var> = </p>
+            <p id="c2-value"><var>M2</var> = </p>
+        </div>
+        
+        <h2>Step 5: Encrypt Signature by private key A</h2>
+        <div class="calculation-section">
+            <div>
+                <button class="btn" type="submit">Encrypt Signature</button>
+            </div>
+            <p id="m-encrypt-value">Encrypt Signature: </p>
+        </div>
+        
+        <h2>Step 6: Verify Signature by public key A</h2>
+        <div class="calculation-section">
+            <div>
+                <button class="btn" type="submit">Verify</button>
+            </div>
+            <p id="m-decrypt-value">Verify: </p>
+        </div>
     </div>
     
 
