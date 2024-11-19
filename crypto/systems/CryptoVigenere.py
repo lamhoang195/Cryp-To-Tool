@@ -1,5 +1,4 @@
 from ..template.Plaintext import Plaintext
-from typing import override
 from ..Mathematic.strint import int2str
 
 class VigenereCryptoSystem():
@@ -7,7 +6,6 @@ class VigenereCryptoSystem():
         self.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         self.key = key
         self.ciphertext = ciphertext
-    @override
     def encrypt(self, key: str, plaintext: Plaintext) -> str:
         L = len(key)
         accumulation = ""
@@ -36,7 +34,6 @@ class VigenereCryptoSystem():
 
         return result
 
-    @override
     def decrypt(self, key: str, ciphertext: str) -> Plaintext:
         L = len(key)
         accumulation = ""
@@ -63,11 +60,9 @@ class VigenereCryptoSystem():
 
         return Plaintext.from_string(result)
     
-    @override
     def plaintext2key(self, plaintext: Plaintext) -> str:
         return plaintext.to_string()
     
-    @override
     def key2plaintext(self, key: str) -> Plaintext:
         return Plaintext.from_string(key)
     

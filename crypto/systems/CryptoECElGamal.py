@@ -5,7 +5,6 @@ LEFT_PADDING_SIZE = 5
 
 import sys
 sys.set_int_max_str_digits(2147483647)
-from typing import override
 from random import randrange
 from copy import deepcopy
 from ..template import CryptoCommunicationDriver, CryptoSystem, CryptoSystemTest, Plaintext
@@ -65,7 +64,6 @@ class ECElGamalCryptoSystem(CryptoSystem[
     ECElGamalPrivateKey,
     ECElGamalCiphertext,
 ]):
-    @override
     def generate_keypair(self) -> tuple[ECElGamalPublicKey, ECElGamalPrivateKey]:
         ec = generate_elliptic_curve_with_number_of_points_being_prime(CRYPTO_BITS)
         s = randrange(ec.p // 2, ec.p)
@@ -73,8 +71,6 @@ class ECElGamalCryptoSystem(CryptoSystem[
         pub = ECElGamalPublicKey(ec, B)
         priv = ECElGamalPrivateKey(ec, s)
         return (pub, priv)
-
-    @override
     def ask_public_key_interactively(self, prompt: str|None = None) -> ECElGamalPublicKey:
         if prompt is not None:
             print(prompt)
@@ -86,12 +82,10 @@ class ECElGamalCryptoSystem(CryptoSystem[
         )
         return ECElGamalPublicKey(ec, B)
     
-    @override
     def ask_plain_text_interactively(self, public_key: ECElGamalPublicKey, prompt: str|None = None) -> Plaintext:
         text_string = input(prompt or "Enter the plaintext message" + " (as text): ")
         return Plaintext.from_string(text_string)
     
-    @override
     def ask_cipher_text_interactively(self, private_key: ECElGamalPrivateKey, prompt: str|None = None) -> ECElGamalCiphertext:
         print(prompt or "Enter the ciphertext:")
         N = int(input("    Enter the number of pairs: "))
@@ -107,7 +101,6 @@ class ECElGamalCryptoSystem(CryptoSystem[
         
         return ECElGamalCiphertext(pairs)
     
-    @override
     def encrypt(self, public_key: ECElGamalPublicKey, plain_text: Plaintext) -> ECElGamalCiphertext:
         ec, B = public_key.ec, public_key.B
         P = ec.starting_point
@@ -122,7 +115,6 @@ class ECElGamalCryptoSystem(CryptoSystem[
             pairs.append(ECElGamalCiphertextPair(M1, M2))
         return ECElGamalCiphertext(pairs)
     
-    @override
     def decrypt(self, private_key: ECElGamalPrivateKey, cipher_text: ECElGamalCiphertext) -> Plaintext:
         ec = private_key.ec
         s = private_key.s
@@ -135,11 +127,9 @@ class ECElGamalCryptoSystem(CryptoSystem[
             plain_numbers.append(plain_number)
         return Plaintext(plain_numbers)
     
-    @override
     def str2plaintext(self, public_key: ECElGamalPublicKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
     
-    @override
     def plaintext2str(self, private_key: ECElGamalPrivateKey, plain_text: Plaintext) -> str:
         return plain_text.to_string()
 
@@ -148,7 +138,6 @@ class ECElGamalCryptoSystemTest(CryptoSystemTest[
     ECElGamalPrivateKey,
     ECElGamalCiphertext,
 ]):
-    @override
     def create_crypto_system(self) -> CryptoSystem[ECElGamalPublicKey, ECElGamalPrivateKey, ECElGamalCiphertext]:
         return ECElGamalCryptoSystem()
 def run_CryptoECElGamal():

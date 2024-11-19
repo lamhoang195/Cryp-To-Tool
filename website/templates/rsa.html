@@ -9,7 +9,7 @@
 
         {% include 'head.html' %}
 
-
+        <script src="static/js/rsa.js"></script>
         <div class="cryptosystem-container">
             <h1>RSA Encryption - Step by Step Guide</h1>
             <p>Learn how to encrypt and decrypt using the RSA algorithm with this interactive tool.</p>
@@ -19,15 +19,21 @@
             <div class="calculation-section">
                 <div class="input-item">
                     <label for="p"><var>p</var> = </label>
-                    <input type="number" id="p" placeholder="Enter a prime number">
+                    <input type="number" id="p" placeholder="Enter a prime number" value ={{p}} >
                 </div>
                 <div class="input-item">
                     <label for="q"><var>q</var> = </label>
-                    <input type="number" id="q" placeholder="Enter a prime number">
+                    <input type="number" id="q" placeholder="Enter a prime number" value = {{q}}>
                 </div>
             </div>
+            <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
             <div>
-                <button class="btn" type="submit">Generate Public Key</button>
+                <label for="Number of bits">Number of bits</label>
+                <input type="number" id="bits" placeholder="Enter number of bits">
+                <button class = "generate-prime btn" type="submit">Generate Prime Number</button>
+            </div>
+            <div>
+                <button class="rsa-submit btn" type="submit"">Submit</button>
             </div>
         
             <h2>Step 2: Calculate Key Values</h2>
@@ -49,7 +55,7 @@
                 <label for="e"> <var>e</var> = </label>
                 <input type="number" id="e" placeholder="Enter number">
                 <div>
-                    <button class="btn" type="submit">Generate Private Key</button>
+                    <button class="generate-keys btn" type="submit">Generate Private Key</button>
                 </div>
         
                 <h3><var>d</var> (Step 2.4)</h3>
@@ -59,8 +65,8 @@
                 <p id="d-value">Result: <var>d</var> = </p>
 
                 <div>
-                    <p id="public-key">Public key: <var>(n, d)</var> = </p>
-                    <p id="private-key">Private key: <var>(n, e)</var> = </p>
+                    <p id="public-key">Public key: <var>(n, e)</var> = </p>
+                    <p id="private-key">Private key: <var>(n, d)</var> = </p>
                 </div>
             </div>
         
@@ -70,10 +76,17 @@
                 <p>It uses the numbers of the public key:</p>
                 <p><var>c</var> = (<var>m</var> ^ <var>e</var>) mod <var>n</var></p>
                 <p>RSA encrypts only numbers. These must be greater-equal 0 and less than n.</p>
+                <p>So you need convert from string to int:</p>
+                <div>
+                    <label for="plain"></label>
+                    <input type="text" id="plain" placeholder="Type your plaintext">
+                    <button class = "convert btn" type="submit">Convert</button>
+                    <p id="plaintext">Plaintext: </p>
+                </div>
                 <label for="m"> <var>m</var> = </label>
                 <input type="number" id="m" placeholder="Enter message m">
                 <div>
-                    <button class="btn" type="submit">Encrypt</button>
+                    <button class="encrypt btn" type="submit">Encrypt</button>
                 </div>
                 <p id="c-value">Encrypted: <var>c</var> = </p>
             </div>
@@ -86,7 +99,7 @@
                 <label for="c-decrypt"> <var>c</var> = </label>
                 <input type="number" id="c-decrypt" placeholder="Enter ciphertext c">
                 <div>
-                    <button class="btn" type="submit">Decrypt</button>
+                    <button class="decrypt btn" type="submit">Decrypt</button>
                 </div>
                 <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
             </div>    

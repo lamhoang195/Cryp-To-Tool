@@ -3,7 +3,6 @@ SIGNATURE_BITS = 10
 import sys
 sys.set_int_max_str_digits(2147483647)
 
-from typing import override
 from random import randrange
 from ..template import CryptoCommunicationDriver, SignatureSystem, SignatureSystemTest, Plaintext
 from ..systems import ECElGamalCryptoSystem
@@ -35,7 +34,6 @@ class ECDSASignatureSystem(SignatureSystem[
     ECDSASignatureSignerKey,
     ECDSASignatureVerifierKey,
 ]):
-    @override
     def generate_keypair(self) -> tuple[ECDSASignatureSignerKey, ECDSASignatureVerifierKey]:
         ec = generate_elliptic_curve_with_number_of_points_being_prime(pbits=SIGNATURE_BITS)
         n = ec.num_points_on_curve
@@ -51,8 +49,6 @@ class ECDSASignatureSystem(SignatureSystem[
         verifier = ECDSASignatureVerifierKey(ec, n, Q)
 
         return signer, verifier
-    
-    @override
     def ask_verification_key_interactively(self, prompt: str|None = None) -> ECDSASignatureVerifierKey:
         if prompt is not None:
             print(prompt)
@@ -67,7 +63,6 @@ class ECDSASignatureSystem(SignatureSystem[
         )
         return ECDSASignatureVerifierKey(ec, n, Q)
     
-    @override
     def sign(self, signer_key: ECDSASignatureSignerKey, plain_text: Plaintext) -> Plaintext:
         ec = signer_key.ec
         n = signer_key.n
@@ -101,7 +96,6 @@ class ECDSASignatureSystem(SignatureSystem[
             numbers.append(s)
         return Plaintext(numbers)
     
-    @override
     def verify(self, verifier_key: ECDSASignatureVerifierKey, plain_text: Plaintext, signature: Plaintext) -> bool:
         ec = verifier_key.ec
         n = verifier_key.n
@@ -135,12 +129,9 @@ class ECDSASignatureSystem(SignatureSystem[
                 return False
 
         return True
-    
-    @override
     def str2plaintext_signer(self, signer_key: ECDSASignatureSignerKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
     
-    @override
     def str2plaintext_verifier(self, verifier_key: ECDSASignatureVerifierKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
 
@@ -148,7 +139,6 @@ class ECDSASignatureSystemTest(SignatureSystemTest[
     ECDSASignatureSignerKey,
     ECDSASignatureVerifierKey,
 ]):
-    @override
     def create_signature_system(self) -> SignatureSystem[ECDSASignatureSignerKey, ECDSASignatureVerifierKey]:
         return ECDSASignatureSystem()
 
