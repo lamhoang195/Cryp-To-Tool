@@ -20,7 +20,7 @@ def rsa_genprivatekey():
             return jsonify({'error': 'p and q must be integers.'})
         n,d= generate_RSA_privatekey(p,q,e)
         print(n,d)
-        return jsonify({'n': n, 'd': d})
+        return jsonify({'n': str(n) , 'd': str(d)})
     except Exception as e:
         return jsonify({'error': str(e)})
 @rsa.route('/genprime', methods=['POST'])

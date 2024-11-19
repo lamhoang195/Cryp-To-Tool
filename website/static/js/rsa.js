@@ -32,80 +32,94 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
     }
-    if(submitBtn){
-        submitBtn.addEventListener("click", async () => {
-    const p = document.getElementById("p").value;
-    const q = document.getElementById("q").value;
-    
-    if (!p || !q) {
-        alert("Please enter values for p, q");
-        return;
-    }
-    n = p*q;
-    phi_n = (p-1)*(q-1);
-    document.getElementById("n-value").innerText = `Result: n = ${n}`;
-    document.getElementById("phi-value").innerText = `Result: φ(n) = ${phi_n}`;
-});
-    }
-    if(generateKeysBtn){
-        generateKeysBtn.addEventListener("click", async () => {
-    const p = document.getElementById("p").value;
-    const q = document.getElementById("q").value;
-    const e = document.getElementById("e").value;
+    if (submitBtn) {
+      submitBtn.addEventListener("click", async () => {
+        const p = document.getElementById("p").value;
+        const q = document.getElementById("q").value;
 
-    if (!p || !q || !e) {
-        alert("Please enter values for p, q, and e.");
-        return;
+        if (!p || !q) {
+          alert("Please enter values for p, q");
+          return;
+        }
+        n = BigInt(p) * BigInt(q); // Sử dụng BigInt để xử lý số lớn
+        phi_n = (BigInt(p) - 1n) * (BigInt(q) - 1n); // Cần "1n" để tương thích với BigInt
+        document.getElementById(
+          "n-value"
+        ).innerText = `Result: n = ${n.toString()}`; // Hiển thị số không bị làm tròn
+        document.getElementById(
+          "phi-value"
+        ).innerText = `Result: φ(n) = ${phi_n.toString()}`;
+      });
     }
+    if (generateKeysBtn) {
+      generateKeysBtn.addEventListener("click", async () => {
+        const p = document.getElementById("p").value;
+        const q = document.getElementById("q").value;
+        const e = document.getElementById("e").value;
 
-    const data = await postData("/rsa/genprivatekey", { p, q, e });
-    if (data.error) {
-        alert(data.error);
-    } else {
-        document.getElementById("d-value").innerText = `Result: d = ${data.d}`;
-        document.getElementById("public-key").innerText = `Public Key: (n, e) = (${data.n}, ${e})`;
-        document.getElementById("private-key").innerText = `Private Key: (n, d) = (${data.n}, ${data.d})`;
-    }
-});
-    }
-if(encryptBtn){
-    encryptBtn.addEventListener("click", async () => {
-    const m = document.getElementById("m").value;
-    const e = document.getElementById("e").value;
-    const n = document.getElementById("n-value").innerText.split("= ")[1];
+        if (!p || !q || !e) {
+          alert("Please enter values for p, q, and e.");
+          return;
+        }
 
-    if (!m || !e || !n) {
-        alert("Please enter values for m, e, and ensure n is calculated.");
-        return;
+        const data = await postData("/rsa/genprivatekey", { p, q, e });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById("d-value").innerText = `Result: d = ${BigInt(
+            data.d
+          ).toString()}`;
+          document.getElementById(
+            "public-key"
+          ).innerText = `Public Key: (n, e) = (${data.n}, ${e})`;
+          document.getElementById(
+            "private-key"
+          ).innerText = `Private Key: (n, d) = (${data.n}, ${data.d})`;
+        }
+      });
     }
+    if (encryptBtn) {
+      encryptBtn.addEventListener("click", async () => {
+        const m = document.getElementById("m").value;
+        const e = document.getElementById("e").value;
+        const n = document.getElementById("n-value").innerText.split("= ")[1];
 
-    const data = await postData("/rsa/encrypt", { m, e, n });
-    if (data.error) {
-        alert(data.error);
-    } else {
-        document.getElementById("c-value").innerText = `Encrypted: c = ${data.c}`;
-    }
-});
-}
-if(decryptBtn){
-decryptBtn.addEventListener("click", async () => {
-    const c = document.getElementById("c-decrypt").value;
-    const d = document.getElementById("d-value").innerText.split("= ")[1];
-    const n = document.getElementById("n-value").innerText.split("= ")[1];
+        if (!m || !e || !n) {
+          alert("Please enter values for m, e, and ensure n is calculated.");
+          return;
+        }
 
-    if (!c || !d || !n) {
-        alert("Please enter values for c and ensure d and n are calculated.");
-        return;
+        const data = await postData("/rsa/encrypt", { m, e, n });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById(
+            "c-value"
+          ).innerText = `Encrypted: c = ${BigInt(data.c).toString()}`;
+        }
+      });
     }
+    if (decryptBtn) {
+      decryptBtn.addEventListener("click", async () => {
+        const c = document.getElementById("c-decrypt").value;
+        const d = document.getElementById("d-value").innerText.split("= ")[1];
+        const n = document.getElementById("n-value").innerText.split("= ")[1];
 
-    const data = await postData("/rsa/decrypt", { c, d, n });
-    if (data.error) {
-        alert(data.error);
-    } else {
-        document.getElementById("m-decrypt-value").innerText = `Decrypted: m = ${data.m}`;
+        if (!c || !d || !n) {
+          alert("Please enter values for c and ensure d and n are calculated.");
+          return;
+        }
+
+        const data = await postData("/rsa/decrypt", { c, d, n });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById(
+            "m-decrypt-value"
+          ).innerText = `Decrypted: m = ${BigInt(data.m).toString()}`;
+        }
+      });
     }
-});
-}
 if(convertBtn){
     convertBtn.addEventListener("click", async () => {
     const plain = document.getElementById("plain").value;
