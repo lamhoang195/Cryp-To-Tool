@@ -13,10 +13,16 @@ def create_app():
 
     from .views import views
     from .auth import auth
-    from .rsa import rsa
+    from .scripts.rsa import rsa
+    from .scripts.elgamal import elgamal
+    from .scripts.elliptic import elliptic, elliptic_signature
+
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(rsa, url_prefix='/rsa')
+    app.register_blueprint(elgamal, url_prefix='/elgamal')
+    app.register_blueprint(elliptic, url_prefix='/elliptic')
+    app.register_blueprint(elliptic_signature, url_prefix='/elliptic_signature')
     from .models import User
 
     create_database(app)

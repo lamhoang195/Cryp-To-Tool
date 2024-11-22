@@ -22,13 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Bits must be between 1 and 1024.");
         return;
     }
-
     const data = await postData("/rsa/genprime", { bits });
     if (data.error) {
         alert(data.error);
     } else {
-        document.getElementById("p").value = data.p;
-        document.getElementById("q").value = data.q;
+        document.getElementById("p").value =data.p;
+        document.getElementById("q").value =data.q;
     }
 });
     }
@@ -41,10 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Please enter values for p, q");
         return;
     }
-    n = p*q;
-    phi_n = (p-1)*(q-1);
-    document.getElementById("n-value").innerText = `Result: n = ${n}`;
-    document.getElementById("phi-value").innerText = `Result: φ(n) = ${phi_n}`;
+    const data = await postData("/rsa/submit", { p, q });
+    if (data.error) {
+        alert(data.error);
+    } else {
+    document.getElementById("n-value").innerText = `Result: n = ${data.n}`;
+    document.getElementById("phi-value").innerText = `Result: φ(n) = ${data.phi_n}`;
+    }
 });
     }
     if(generateKeysBtn){

@@ -63,16 +63,14 @@
                     </ul>
                   </li>
                   <li class="nav-item">
+                    <a href="{{ url_for('views.contact') }}" aria-label="Toggle navigation">Contact</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Pages</a>
                     <ul class="sub-menu collapse" id="submenu-1-1">
-                      <li class="nav-item"><a href="{{ url_for('auth.signin') }}">Sign In</a></li>
-                      <li class="nav-item"><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
                       <li class="nav-item"><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
                       <li class="nav-item"><a href="reset-password.html">Reset Password</a>
                     </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a href="contact.html" aria-label="Toggle navigation">Contact</a>
                   </li>
                 </ul>
               </div> 

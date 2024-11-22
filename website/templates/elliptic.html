@@ -8,9 +8,9 @@
 {% block content %}
 
     {% include 'head.html' %}
-
+    <script src="static/js/elliptic.js" defer></script>
     <div class="cryptosystem-container">
-        <h1>ELGamal Encryption - Step by Step Guide</h1>
+        <h1>ECELGamal Encryption - Step by Step Guide</h1>
         <p>Learn how to encrypt and decrypt using the Elliptic Curve algorithm with this interactive tool.</p>
     
         <h2>Step 1: Choose Prameters</h2>
@@ -19,6 +19,12 @@
             <div class="input-item">
                 <label for="p"><var>p</var> = </label>
                 <input type="number" id="p" placeholder="Enter a prime number">
+            </div>
+            <p>Or you can generate p :</p>
+            <div>
+                <label for="Number of bits">Number of bits</label>
+                <input type="number" id="bits" placeholder="Enter number of bits">
+                <button class = "generate-prime btn" type="submit">Generate Prime Number</button>
             </div>
             <p>Choose two number a and b with <span>4<var>a</var><sup>3</sup> + 27<var>b</var><sup>2</sup> &#8800; 0 &#8290; mod <var>p</var></span></p>
             <div class="input-item">
@@ -31,9 +37,10 @@
             </div>
         </div>
         <div>
-            <button class="btn" type="submit">Generate Public Key</button>
+            <button class="generate-elliptic btn" type="submit">Generate Elliptic Curve</button>
         </div>
-    
+        <p id = "curve">Curve: y<sup>2</sup> = x<sup>3</sup> + <var>a</var>x + <var>b</var> mod <var>p</var></p>
+        <p id ="points">Points: </p>
         <h2>Step 2: Calculate Key Values</h2>
         <p>Follow these calculations to generate the keys:</p>
         <div class="calculation-section">
@@ -44,8 +51,10 @@
             </div>
             <p>Choose P as a point on the curve</p>
             <div class="input-item">
-                <label for="x"><var>P</var> = </label>
+                <label for="x"><var>Px</var> = </label>
                 <input type="number" id="x" placeholder="Enter number">
+                <label for="y"><var>Py</var> = </label>
+                <input type="number" id="y" placeholder="Enter number">
             </div>
             <p>Caculator <var>B</var> = <var>s</var>.<var>P</var></p>
             <p id="beta-value"><var>β</var> = </p>
@@ -64,17 +73,23 @@
                 <label for="k"><var>k</var> = </label>
                 <input type="number" id="k" placeholder="Enter number">
             </div>
-            <p>Choose point M</p>
+            <p id="plaintext">String Plaintext: </p>
+            <div>
+                <label for="plain"></label>
+                <input type="text" id="plain" placeholder="Type your plaintext">
+                <button class = "convert btn" type="submit">Convert</button>
+            </div>
+            <p>Generate Point in curve with plaintext :</p>
             <div class="input-item">
                 <label for="mm"><var>M</var> = </label>
                 <input type="number" id="mm" placeholder="Enter number">
             </div>
+            <button class="generate-point btn" type="submit">Generate</button>
+            <p id = m>M:</p>
             <p>Caculator <var>M1</var> = <var>k</var>.<var>P</var> mod <var>p</var></p>
             <p>Caculator <var>M2</var> = (<var>M</var> + <var>k</var>.<var>B</var>) mod <var>p</var></p>
-            <label for="m"> <var>m</var> = </label>
-            <input type="number" id="m" placeholder="Enter message m">
             <div>
-                <button class="btn" type="submit">Encrypt</button>
+                <button class="encrypt btn" type="submit">Encrypt</button>
             </div>
             <p id="m1-value"><var>M1</var> = </p>
             <p id="m2-value"><var>M2</var> = </p>
@@ -86,15 +101,19 @@
             <p>It uses the numbers of the private key:</p>
             <p><var>m</var> = (<var>M2</var> - <var>s</var>.<var>M1</var>) mod <var>p</var></p>
             <div class="input-item">
-                <label for="m1-decrypt"> <var>M1</var> = </label>
-                <input type="number" id="m1-decrypt" placeholder="Enter ciphertext M1">
+                <label for="m1-decrypt"> <var>M1x</var> = </label>
+                <input type="number" id="m1-decrypt" placeholder="Enter x of M1">
+                <label for="m1-decrypt-y"> M1y = </label>
+                <input type="number" id="m1-decrypt-y" placeholder="Enter y of M1">
             </div>
             <div class="input-item">
-                <label for="m2-decrypt"> <var>M2</var> = </label>
-                <input type="number" id="m2-decrypt" placeholder="Enter ciphertext M2">
+                <label for="m2-decrypt"> <var>M2x</var> = </label>
+                <input type="number" id="m2-decrypt" placeholder="Enter x of M2">
+                <label for="m2-decrypt-y"> M2y = </label>
+                <input type="number" id="m2-decrypt-y" placeholder="Enter y of M2">
             </div>    
             <div>
-                <button class="btn" type="submit">Decrypt</button>
+                <button class="decrypt btn" type="submit">Decrypt</button>
             </div>
             <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
         </div>    

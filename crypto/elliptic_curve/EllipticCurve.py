@@ -57,10 +57,7 @@ def double_and_add(p: int, a: int, b: int, s: int, P: tuple[int, int]):
         x = x // 2
     return res
 class EllipticCurve:
-    def __init__(self, p: int, p_is_prime: bool, a: int, b: int, starting_point: tuple[int, int]):
-        if not p_is_prime:
-            # In the future: add algo to count points on curve with non-prime modulo to support this case!
-            raise ValueError("p must be prime")
+    def __init__(self, p: int, a: int, b: int, starting_point: tuple[int, int]):
         self.p = p
         self.a = a
         self.b = b

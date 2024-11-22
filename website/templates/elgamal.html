@@ -8,7 +8,8 @@
 
 
     {% include 'head.html' %}
-
+<script src="static/js/elgamal.js" defer>
+</script>
     <div class="cryptosystem-container">
         <h1>ELGamal Encryption - Step by Step Guide</h1>
         <p>Learn how to encrypt and decrypt using the ELGamal algorithm with this interactive tool.</p>
@@ -20,10 +21,17 @@
                 <label for="p"><var>p</var> = </label>
                 <input type="number" id="p" placeholder="Enter a prime number">
             </div>
+            <p>Or you can generate p :</p>
+            <div>
+                <label for="Number of bits">Number of bits</label>
+                <input type="number" id="bits" placeholder="Enter number of bits">
+                <button class = "generate-prime btn" type="submit">Generate Prime Number</button>
+            </div>
             <p>Choose a number 𝛼 such that α is a primitive element</p>
             <div class="input-item">
                 <label for="alpha"><var>α</var> = </label>
                 <input type="number" id="alpha" placeholder="Enter number">
+                <button class = "generate-alpha btn" type="submit">Generate α</button>
             </div>
             <p>Choose any positive integer a</p>
             <div class="input-item">
@@ -32,7 +40,7 @@
             </div>
         </div>
         <div>
-            <button class="btn" type="submit">Generate Public Key</button>
+            <button class="generate-public-keys btn" type="submit">Generate Public Key</button>
         </div>
     
         <h2>Step 2: Calculate Key Values</h2>
@@ -50,17 +58,23 @@
         <p>To encrypt a number <var>m</var> to ciphertext <var>c</var> the following formula is applied.</p>
         <div class="calculation-section">
             <p>It uses the numbers of the public key:</p>
-            <p>Choose any positive integer k</p>
+            <p>Choose any positive integer k </p>
             <div class="input-item">
                 <label for="k"><var>k</var> = </label>
                 <input type="number" id="k" placeholder="Enter number">
             </div>
             <p>Caculator <var>c1</var> = <var>α</var><sup><var>k</var></sup> mod <var>p</var></p>
             <p>Caculator <var>c2</var> = <var>m</var>.</var><var>β</var><sup><var>k</var></sup> mod <var>p</var></p>
+            <div>
+                <label for="plain"></label>
+                <input type="text" id="plain" placeholder="Type your plaintext">
+                <button class = "convert btn" type="submit">Convert</button>
+                <p id="plaintext">Plaintext: </p>
+            </div>
             <label for="m"> <var>m</var> = </label>
             <input type="number" id="m" placeholder="Enter message m">
             <div>
-                <button class="btn" type="submit">Encrypt</button>
+                <button class="encrypt btn" type="submit">Encrypt</button>
             </div>
             <p id="c1-value"><var>c1</var> = </p>
             <p id="c2-value"><var>c2</var> = </p>
@@ -80,7 +94,7 @@
                 <input type="number" id="c2-decrypt" placeholder="Enter ciphertext c2">
             </div>    
             <div>
-                <button class="btn" type="submit">Decrypt</button>
+                <button class="decrypt btn" type="submit">Decrypt</button>
             </div>
             <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
         </div>    

@@ -9,49 +9,57 @@
 
 
     {% include 'head.html' %} 
-
+    <script src="static/js/elliptic_sig.js" defer></script>
 
     <div class="cryptosystem-container">
         <h1>Elliptic ELGamal Signature - Step by Step Guide</h1>
         <p>Learn how to encrypt and decrypt using the Elliptic ELGamal Signature with this interactive tool.</p>
     
-        <h2>Step 1: Choose Prime Number A</h2>
-        <p>Start by selecting two prime numbers <var>p</var> and <var>q</var>:</p>
+        <h2>Step 1: Choose Prameters A</h2>
         <div class="calculation-section">
             <p>Start by selecting a prime numbers <var>p</var>:</p>
             <div class="input-item">
-                <label for="p-a"><var>p</var><sub>A</sub> = </label>
+                <label for="p"><var>p</var> = </label>
                 <input type="number" id="p" placeholder="Enter a prime number">
+            </div>
+            <p>Or you can generate p :</p>
+            <div>
+                <label for="Number of bits">Number of bits</label>
+                <input type="number" id="bits" placeholder="Enter number of bits">
+                <button class = "generate-prime btn" type="submit">Generate Prime Number</button>
             </div>
             <p>Choose two number a and b with <span>4<var>a</var><sup>3</sup> + 27<var>b</var><sup>2</sup> &#8800; 0 &#8290; mod <var>p</var></span></p>
             <div class="input-item">
-                <label for="a-a"><var>a</var><sub>A</sub> = </label>
-                <input type="number" id="a-a" placeholder="Enter number">
+                <label for="a"><var>a</var> = </label>
+                <input type="number" id="a" placeholder="Enter number">
             </div>
             <div class="input-item">
-                <label for="b-a"><var>b</var><sub>A</sub> = </label>
-                <input type="number" id="b-a" placeholder="Enter number">
+                <label for="b"><var>b</var> = </label>
+                <input type="number" id="b" placeholder="Enter number">
             </div>
         </div>
         <div>
-            <button class="btn" type="submit">Generate Public Key A</button>
+            <button class="generate-elliptic btn" type="submit">Generate Elliptic Curve</button>
         </div>
-    
-        <h2>Step 2: Calculate Key Values A</h2>
+        <p id = "curve">Curve: y<sup>2</sup> = x<sup>3</sup> + <var>a</var>x + <var>b</var> mod <var>p</var></p>
+        <p id ="points">Points: </p>
+        <h2>Step 2: Calculate Key Values A </h2>
         <p>Follow these calculations to generate the keys:</p>
         <div class="calculation-section">
             <p>Choose any number s</p>
             <div class="input-item">
-                <label for="s"><var>s</var><sub>A</sub> = </label>
+                <label for="s"><var>s</var> = </label>
                 <input type="number" id="s" placeholder="Enter number">
             </div>
             <p>Choose P as a point on the curve</p>
             <div class="input-item">
-                <label for="x"><var>P</var><sub>A</sub> = </label>
+                <label for="x"><var>Px</var> = </label>
                 <input type="number" id="x" placeholder="Enter number">
+                <label for="y"><var>Py</var> = </label>
+                <input type="number" id="y" placeholder="Enter number">
             </div>
-            <p>Caculator <var>B</var><sub>A</sub> = <var>s</var>.<var>P</var></p>
-            <p id="beta-value"><var>B</var><sub>A</sub> = </p>
+            <p>Caculator <var>B</var> = <var>s</var>.<var>P</var></p>
+            <p id="beta-value"><var>β</var> = </p>
             <div>
                 <p id="public-key">Public key: <var>(p, a, b, P, B)</var> = </p>
                 <p id="private-key">Private key: <var>(s)</var> = </p>
@@ -74,12 +82,12 @@
                 <input type="number" id="beta_b" placeholder="Enter number">
             </div>
             <div class="input-item">
-                <label for="beta_b"><var>P<sub>B</sub></var> = </label>
-                <input type="number" id="beta_b" placeholder="Enter number">
+                <label for="P_b"><var>P<sub>B</sub></var> = </label>
+                <input type="text" id="P_b" placeholder="Enter your point">
             </div>
             <div class="input-item">
-                <label for="beta_b"><var>B<sub>B</sub></var> = </label>
-                <input type="number" id="beta_b" placeholder="Enter number">
+                <label for="B_b"><var>B<sub>B</sub></var> = </label>
+                <input type="text" id="B_b" placeholder="Enter your point">
             </div>
         </div>
     
@@ -97,6 +105,8 @@
                 <label for="mm"><var>M</var> = </label>
                 <input type="number" id="mm" placeholder="Enter number">
             </div>
+            <button class="generate-point btn" type="submit">Generate</button>
+            <p id = m>M:</p>
             <p>Caculator <var>M1</var> = <var>k</var>.<var>P</var><sub>B</sub></p>
             <p>Caculator <var>M2</var> = <var>M</var> + <var>k</var>.<var>B</var><sub>B</sub></p>
             <label for="m"> <var>m</var> = </label>

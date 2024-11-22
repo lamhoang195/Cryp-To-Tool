@@ -38,3 +38,6 @@ def elgamal_signature():
 @login_required
 def elliptic_signature():
     return render_template("elliptic_signature.html")
+@views.route('/contact')
+def contact():
+    return render_template("contact.html")
