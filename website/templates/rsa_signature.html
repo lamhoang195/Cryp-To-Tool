@@ -6,6 +6,7 @@
 
 {% block content %}
 
+
     {% include 'head.html' %}
 
     
@@ -17,16 +18,22 @@
         <p>Start by selecting two prime numbers <var>p</var> and <var>q</var>:</p>
         <div class="calculation-section">
             <div class="input-item">
-                <label for="p_a"><var>p<sub>A</sub></var> = </label>
-                <input type="number" id="p_a" placeholder="Enter a prime number">
+                <label for="p_a"><var>p</var><sub>A</sub> = </label>
+                <input type="number" id="p_a" placeholder="Enter a prime number" value={{p_a}}>
             </div>
             <div class="input-item">
-                <label for="q_a"><var>q<sub>A</sub></var> = </label>
-                <input type="number" id="q_a" placeholder="Enter a prime number">
+                <label for="q_a"><var>q</var><sub>A</sub> = </label>
+                <input type="number" id="q_a" placeholder="Enter a prime number" value={{q_a}}>
             </div>
         </div>
+        <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
         <div>
-            <button class="btn" type="submit">Generate Public Key A</button>
+            <label for="Number of bits">Number of bits</label>
+            <input type="number" id="bits" placeholder="Enter number of bits">
+            <button class = "generate-prime btn" type="submit">Generate Prime Number</button>
+        </div>
+        <div>
+            <button class="rsa-sig-submit btn" type="submit">Submit</button>
         </div>
     
         <h2>Step 2: Calculate Key Values A</h2>
@@ -34,28 +41,35 @@
         <div class="calculation-section">
             <p>Calculate <var>n<sub>A</sub></var> by multiplying <var>p<sub>A</sub></var> and <var>q<sub>A</sub></var>:</p>
             <p><var>n<sub>A</sub></var> = <var>p<sub>A</sub></var> × <var>q<sub>A</sub></var></p>
-            <p id="n_a">Result: <var>n</var> = </p>
+            <p id="n_a">Result: <var>n</var><sub>A</sub> = </p>
     
             <p>To calculate the further values <var>e<sub>A</sub></var> and <var>d<sub>A</sub></var> the Euler phi function <var>ϕ<sub>A</sub></var> is used.
                 It calculates how many numbers coprime to <var>n<sub>A</sub></var> are there, which are not larger than <var>n<sub>A</sub></var>. </p>
             <p><var>ϕ(n)<sub>A</sub></var> = (<var>p<sub>A</sub></var> - 1) × (<var>q<sub>A</sub></var> - 1)</p>
-            <p id="phi_a"><var>ϕ<sub>A</sub></var>(<var>n<sub>A</sub></var>) = </p>
+            <p id="phi_n_a"><var>ϕ</var>(<var>n</var><sub>A</sub>) = </p>
     
             <p>Choose a number <var>e<sub>A</sub></var> that is coprime to <var>φ<sub>A</sub></var>(<var>n<sub>A</sub></var>) and smaller than it.</p>
-            <label for="e_a"> <var>e<sub>A</sub></var> = </label>
-            <input type="number" id="e_a" placeholder="Enter number">
+            <div class="input-item">
+                <label for="e_a"> <var>e<sub>A</sub></var> = </label>
+                <input type="number" id="e_a" placeholder="Enter number" value={{e_a}}>
+            </div>
+            <p>Or you can choose a prime number close to <var>ϕ(n<sub>A</sub>)</var></p>
+                <div>   
+                    <label for="Number of bits">Number of bits</label>
+                    <input type="number" id="bitse" placeholder="Enter number of bits">
+                    <button class = "generate-prime-e btn" type="submit">Generate Prime Number</button>
+                </div>
             <div>
-                <button class="btn" type="submit">Generate Private Key</button>
+                <button class="generate-keys btn" type="submit">Generate Private Key</button>
             </div>
     
             <p>The number <var>d<sub>A</sub></var> is the multiplicative inverse to e</p>
             <p>Expressed in formulas, the following must apply:</p>
             <p>Find <var>d<sub>A</sub></var> such that (<var>d<sub>A</sub></var> × <var>e<sub>A</sub></var>) mod <var>ϕ(n)<sub>A</sub></var> = 1:</p>
-            <p id="d-value">Result: <var>d<sub>A</sub></var> = </p>
+            <p id="d_a">Result: <var>d<sub>A</sub></var> = </p>
 
             <div>
                 <p id="public-key">Public key A: <var>(n, e)</var> = </p>
-                <p id="private-key">Private key A: <var>(p, q, d)</var> = </p>
             </div>
         </div>
     
@@ -63,12 +77,40 @@
         <p>Follow these calculations to generate the keys:</p>
         <div class="calculation-section">
             <div class="input-item">
-                <label for="n_b"><var>n<sub>B</sub></var> = </label>
-                <input type="number" id="n_b" placeholder="Enter number">
+                <label for="p_b"><var>p<sub>B</sub></var> = </label>
+                <input type="number" id="p_b" placeholder="Enter number">
             </div>
             <div class="input-item">
+                <label for="q_b"><var>q<sub>B</sub></var> = </label>
+                <input type="number" id="q_b" placeholder="Enter number">
+            </div>
+            <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+            <div>   
+                <label for="Number of bits">Number of bits</label>
+                <input type="number" id="bitsb" placeholder="Enter number of bits">
+                <button class = "generate-prime-b btn" type="submit">Generate Prime Number</button>
+            </div>
+            <div>
+                <button class="rsa-sig-submit-b btn" type="submit">Submit</button>
+            </div>
+            <p id="n_b">Result: <var>n</var><sub>B</sub> = </p>
+            <p id="phi_n_b"><var>ϕ</var>(<var>n</var><sub>b</sub>) = </p>
+            <div class="input-item">
                 <label for="e_b"><var>e<sub>B</sub></var> = </label>
-                <input type="number" id="e_b" placeholder="Enter number">
+                <input type="number" id="e_b" placeholder="Enter number" value={{e_b}}>
+            </div>
+            <p>Or you can choose a prime number close to <var>ϕ(n<sub>B</sub>)</var></p>
+            <div>   
+                <label for="Number of bits">Number of bits</label>
+                <input type="number" id="bitsbe" placeholder="Enter number of bits">
+                <button class = "generate-prime-b-e btn" type="submit">Generate Prime Number</button>
+            </div>
+            <div>
+                <button class="generate-keys-b btn" type="submit">Generate Private Key</button>
+            </div>
+            <p id="d_b">Result: <var>d</var><sub> B</sub> = </p>
+            <div>
+                <p id="public-key-b">Public key B: <var>(n, e)</var> = </p>
             </div>
         </div>
     
@@ -78,41 +120,61 @@
             <p>It uses the numbers of the public key:</p>
             <p><var>y</var> = (<var>m</var><sup><var>e<sub>B</sub></var></sup>) mod <var>n<sub>B</sub></var></p>
             <p>RSA encrypts only numbers. These must be greater-equal 0 and less than n.</p>
-            <label for="m"> <var>m</var> = </label>
-            <input type="number" id="m" placeholder="Enter message m">
+            <p>So you need convert from string to int:</p>
             <div>
-                <button class="btn" type="submit">Encrypt</button>
+                <label for="plain"></label>
+                <input type="text" id="plain" placeholder="Type your plaintext">
+                <button class = "convert btn" type="submit">Convert</button>
+                <p id="plaintext">Plaintext: </p>
             </div>
-            <p id="c-value">Encrypted: <var>y</var> = </p>
+                <label for="m"> <var>m</var> = </label>
+                <input type="number" id="m" placeholder="Enter message m">
+            <div>
+                <button class="encrypt-mes btn" type="submit">Encrypt</button>
+            </div>
+            <p id="c-value">Encrypted: <var>c</var> = </p>
         </div>
 
         <h2>Step 5: Encrypt Signature by private key A</h2>
         <div class="calculation-section">
             <p><var>sig<sub>K<sup>'</sup></sub><var>(x)</var></var> = (<var>m</var><sup><var>d<sub>A</sub></var></sup>) mod <var>n<sub>A</sub></var></p>
             <div>
-                <button class="btn" type="submit">Encrypt Signature</button>
+                <label for="m"> <var>m</var> = </label>
+                <input type="number" id="m" placeholder="Enter message m">
             </div>
-            <p id="m-encrypt-sig-value">Encrypt Signature: </p>
+            <div>
+                <button class="encrypt-sig btn" type="submit">Encrypt Signature</button>
+            </div>
+            <p id="sig">Encrypt Signature: </p>
         </div>
         
         <h2>Step 6: Verify Signature by public key A</h2>
         <div class="calculation-section">
             <p><var>ver<sub>K<sup>''</sup></sub><var>(x, y)</var></var> = (<var>sig</var><sup><var>e<sub>A</sub></var></sup>) mod <var>n<sub>A</sub></var> = <var>m</var> mod <var>n<sub>A</sub></var></p>
             <div>
-                <button class="btn" type="submit">Verify</button>
+                <label for="sig-veri"> <var>sig</var> = </label>
+                <input type="number" id="sig-veri" placeholder="Enter message m">
             </div>
-            <p id="m-decrypt-value">Verify: </p>
+            <div>
+                <button class="decrypt-sig btn" type="submit">Verify</button>
+            </div>
+            <p id="veri">Verify: </p>
         </div>
 
         <h2>Step 7: Decrypt messange by private key B</h2>
         <div class="calculation-section">
-            <p><var>m</var> = (<var>y</var><sup><var>d<sub>B</sub></var></sup>) mod <var>n<sub>A</sub></var></p>
+            <p><var>m</var> = (<var>c</var><sup><var>d<sub>B</sub></var></sup>) mod <var>n<sub>B</sub></var></p>
             <div>
-                <button class="btn" type="submit">Decrypt</button>
+                <label for="c-decrypt"> <var>c</var> = </label>
+                <input type="number" id="c-decrypt" placeholder="Enter ciphertext c">
+            </div>   
+            <div>
+                <button class="decrypt btn" type="submit">Decrypt</button>
             </div>
             <p id="m-decrypt-value">Decrypt: <var>m</var> = </p>
         </div>
     </div>
+    <script src="static/js/rsa_signature.js"></script>
 
 
     {% include 'footer.html' %}

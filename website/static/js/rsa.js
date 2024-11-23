@@ -10,26 +10,28 @@ async function postData(url, data) {
 document.addEventListener("DOMContentLoaded", function () {
     const generatePrimeBtn = document.querySelector(".generate-prime.btn");
     const submitBtn = document.querySelector(".rsa-submit.btn");
+    const generatePrimeEEBtn = document.querySelector(".generate-prime-e.btn");
     const encryptBtn = document.querySelector(".encrypt.btn");
     const decryptBtn = document.querySelector(".decrypt.btn");
     const generateKeysBtn = document.querySelector(".generate-keys.btn");
     const convertBtn = document.querySelector(".convert.btn");
-    if(generatePrimeBtn){
-        generatePrimeBtn.addEventListener("click", async () => {
-    const bits = document.getElementById("bits").value;
+    if (generatePrimeBtn) {
+      generatePrimeBtn.addEventListener("click", async () => {
+        const bits = document.getElementById("bits").value;
+        if (!bits || bits < 1 || bits > 1024) {
+          alert("Bits must be between 1 and 1024.");
+          return;
+        }
 
-    if (!bits || bits < 1 || bits > 1024) {
-        alert("Bits must be between 1 and 1024.");
-        return;
-    }
-    const data = await postData("/rsa/genprime", { bits });
-    if (data.error) {
-        alert(data.error);
-    } else {
-        document.getElementById("p").value =data.p;
-        document.getElementById("q").value =data.q;
-    }
-});
+        const data = await postData("/rsa/genprime", { bits });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          // Automatically fill in p and q values
+          document.getElementById("p").value = BigInt(data.p).toString();
+          document.getElementById("q").value = BigInt(data.q).toString();
+        }
+      });
     }
     if(submitBtn){
         submitBtn.addEventListener("click", async () => {
@@ -49,6 +51,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
     }
+
+    if (generatePrimeEEBtn) {
+      generatePrimeEEBtn.addEventListener("click", async () => {
+        const bitse = document.getElementById("bitse").value;
+
+        if (!bitse || bitse < 1 || bitse > 2048) {
+          alert("Bits must be between 1 and 2048.");
+          return;
+        }
+
+        const data = await postData("/rsa/genprimeee", { bitse });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          // Automatically fill in p and q values
+          document.getElementById("e").value = BigInt(data.e).toString();
+        }
+      });
+    }
+
     if (generateKeysBtn) {
       generateKeysBtn.addEventListener("click", async () => {
         const p = document.getElementById("p").value;
@@ -76,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
+
     if (encryptBtn) {
       encryptBtn.addEventListener("click", async () => {
         const m = document.getElementById("m").value;
@@ -97,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
+
     if (decryptBtn) {
       decryptBtn.addEventListener("click", async () => {
         const c = document.getElementById("c-decrypt").value;
@@ -118,23 +142,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
-if(convertBtn){
-    convertBtn.addEventListener("click", async () => {
-    const plain = document.getElementById("plain").value;
+    if (convertBtn) {
+      convertBtn.addEventListener("click", async () => {
+        const plain = document.getElementById("plain").value;
 
-    if (!plain) {
-        alert("Please type your plaintext.");
-        return;
-    }
+        if (!plain) {
+          alert("Please type your plaintext.");
+          return;
+        }
 
-    const data = await postData("/rsa", { plain });
-    if (data.error) {
-        alert(data.error);
-    } else {
-        document.getElementById(
-          "plaintext"
-        ).innerText = `Plaintext: ${data.plain}`;
+        const data = await postData("/rsa", { plain });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById(
+            "plaintext"
+          ).innerText = `Plaintext: ${data.plain}`;
+        }
+      });
     }
-});
-}
 });

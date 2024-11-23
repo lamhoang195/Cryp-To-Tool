@@ -47,7 +47,6 @@ class ElGamalCiphertext:
 
 def ElGamal_generate_keypair(pbits: int) -> tuple[tuple[int, int, int], tuple[int, int], dict[int, int]]:
     p, fact_of_p_minus_1 = random_prime_with_fact_of_p_minus_1(lbound=f"{pbits}b", ubound=f"{pbits + 1}b")
-    # alpha = p // 2
     alpha = 2
     while not is_primitive_root_fast(alpha, p, fact_of_p_minus_1):
         alpha += 1
@@ -55,6 +54,13 @@ def ElGamal_generate_keypair(pbits: int) -> tuple[tuple[int, int, int], tuple[in
     beta = modpower(alpha, a, p)
 
     return (p, alpha, beta), (p, a), fact_of_p_minus_1
+
+def generate_ELGAMAL_publickey(p :int ,alpha :int, a:int) -> tuple[int, int, int]:
+    beta = modpower(alpha, a, p)
+    return (p, alpha, beta)
+
+def generate_ELGAMAL_privatekey(p :int ,a :int) -> tuple[int, int]:
+    return (p, a)
 
 class ElGamalCryptoPublicKey:
     def __init__(self, p: int, alpha: int, beta: int):
@@ -122,6 +128,7 @@ class ElGamalCryptoSystem(CryptoSystem[
             raise RuntimeError(f"Could not find s such that y1^a * s = 1 mod p. c1 = {c1}, a = {a}, p = {p}")
         m = c2 * s % p
         return m
+
     def str2plaintext(self, public_key: ElGamalCryptoPublicKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
     

@@ -9,7 +9,7 @@
 
         {% include 'head.html' %}
 
-        <script src="static/js/rsa.js" defer></script>
+        
         <div class="cryptosystem-container">
             <h1>RSA Encryption - Step by Step Guide</h1>
             <p>Learn how to encrypt and decrypt using the RSA algorithm with this interactive tool.</p>
@@ -27,38 +27,42 @@
                 </div>
             </div>
             <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
-            <div>
+            <div>   
                 <label for="Number of bits">Number of bits</label>
                 <input type="number" id="bits" placeholder="Enter number of bits">
                 <button class = "generate-prime btn" type="submit">Generate Prime Number</button>
             </div>
             <div>
-                <button class="rsa-submit btn" type="submit"">Submit</button>
+                <button class="rsa-submit btn" type="submit">Submit</button>
             </div>
         
             <h2>Step 2: Calculate Key Values</h2>
             <p>Follow these calculations to generate the keys:</p>
             <div class="calculation-section">
-                <h3><var>n</var> (Step 2.1)</h3>
                 <p>Calculate <var>n</var> by multiplying <var>p</var> and <var>q</var>:</p>
                 <p><var>n</var> = <var>p</var> × <var>q</var></p>
                 <p id="n-value">Result: <var>n</var> = </p>
         
-                <h3><var>ϕ(n)</var> (Step 2.2)</h3>
                 <p>To calculate the further values <var>e</var> and <var>d</var> the Euler phi function <var>ϕ</var> is used.
                     It calculates how many numbers coprime to <var>n</var> are there, which are not larger than <var>n</var>. </p>
                 <p><var>ϕ(n)</var> = (<var>p</var> - 1) × (<var>q</var> - 1)</p>
                 <p id="phi-value"><var>ϕ</var>(<var>n</var>) = </p>
         
-                <h3><var>e</var> (Step 2.3)</h3>
                 <p>Choose a number <var>e</var> that is coprime to <var>φ</var>(<var>n</var>) and smaller than it.</p>
-                <label for="e"> <var>e</var> = </label>
-                <input type="number" id="e" placeholder="Enter number">
+                <div class="input-item">
+                    <label for="e"> <var>e</var> = </label>
+                    <input type="number" id="e" placeholder="Enter number" value={{e}}>
+                </div>
+                <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+                    <div>   
+                        <label for="Number of bits e">Number of bits e</label>
+                        <input type="number" id="bitse" placeholder="Enter number of bits e">
+                        <button class = "generate-prime-e btn" type="submit">Generate Prime Number</button>
+                    </div>
                 <div>
                     <button class="generate-keys btn" type="submit">Generate Private Key</button>
                 </div>
         
-                <h3><var>d</var> (Step 2.4)</h3>
                 <p>The number <var>d</var> is the multiplicative inverse to e</p>
                 <p>Expressed in formulas, the following must apply:</p>
                 <p>Find <var>d</var> such that (<var>d</var> × <var>e</var>) mod <var>ϕ(n)</var> = 1:</p>
@@ -106,7 +110,7 @@
                 <p id="m-decrypt-value">Decrypted: <var>m</var> = </p>
             </div>    
         </div>
-        
+        <script src="static/js/rsa.js"></script>
         
 
         {% include 'footer.html' %}
