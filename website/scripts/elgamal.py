@@ -3,7 +3,7 @@ from flask_login import login_required
 import math
 elgamal = Blueprint('elgamal', __name__)
 elgamal_signature = Blueprint('elgamal_signature', __name__)
-from crypto.systems.CryptoElGamal import ElGamalCryptoSystem,ElGamalCryptoPublicKey,ElGamalCryptoPrivateKey,ElGamal_generate_keypair
+from crypto.systems.CryptoElGamal import ElGamalCryptoSystem,ElGamalCryptoPublicKey,ElGamalCryptoPrivateKey,ElGamal_generate_keypair,generate_ELGAMAL_publickey,ElGamal_generate_alpha
 from crypto.Mathematic import is_prime,random_prime
 ElGamal = ElGamalCryptoSystem()
 @elgamal.route('/genkey', methods=['POST'])
@@ -18,7 +18,7 @@ def genkey():
             return jsonify({'error': 'p and alpha must be integers.'})
         if a >= p:
             return jsonify({'error': 'a must be less than p.'})
-        beta = ElGamal_generate_keypair(p)[0][2]
+        beta = generate_ELGAMAL_publickey(p, alpha, a)[2]
         return jsonify({'beta': str(beta)})
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -84,7 +84,7 @@ def genalpha():
             return jsonify({'error': 'p must be a prime number.'})
         if not isinstance(p,int):
             return jsonify({'error': 'p must be an integer.'})
-        alpha = ElGamal_generate_keypair(p)[0][1]
+        alpha = ElGamal_generate_alpha(p)
         return jsonify({'alpha': str(alpha)})
     except Exception as e:
         return jsonify({'error': str(e)})

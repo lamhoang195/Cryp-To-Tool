@@ -117,6 +117,7 @@ if(generateAlphaBtn){
     }
 
     const data = await postData("/elgamal/genalpha", { p });
+    console.log(data);
     if (data.error) {
         alert(data.error);
     } else {

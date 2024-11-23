@@ -11,7 +11,7 @@ from random import randrange
 
 from ..Mathematic.extended_euclidean import inverse
 from ..Mathematic.modpower import modpower
-from ..Mathematic.primitive_root import is_primitive_root_fast
+from ..Mathematic.primitive_root import is_primitive_root_fast, find_primitive_root
 from ..Mathematic.random_prime import random_prime_with_fact_of_p_minus_1
 from ..template import CryptoCommunicationDriver, CryptoSystem, CryptoSystemTest, Plaintext
 from ..Mathematic.bit_padding import pad, unpad, BitPaddingConfig
@@ -54,7 +54,9 @@ def ElGamal_generate_keypair(pbits: int) -> tuple[tuple[int, int, int], tuple[in
     beta = modpower(alpha, a, p)
 
     return (p, alpha, beta), (p, a), fact_of_p_minus_1
-
+def ElGamal_generate_alpha(p: int) -> int:
+    alpha = find_primitive_root(p)
+    return alpha
 def generate_ELGAMAL_publickey(p :int ,alpha :int, a:int) -> tuple[int, int, int]:
     beta = modpower(alpha, a, p)
     return (p, alpha, beta)
