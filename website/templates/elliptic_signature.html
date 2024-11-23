@@ -83,11 +83,11 @@
             </div>
             <div class="input-item">
                 <label for="P_b"><var>P<sub>B</sub></var> = </label>
-                <input type="text" id="P_b" placeholder="Enter your point">
+                <input type="text" id="P_b" placeholder="Enter your point .EX : (x,y)">
             </div>
             <div class="input-item">
                 <label for="B_b"><var>B<sub>B</sub></var> = </label>
-                <input type="text" id="B_b" placeholder="Enter your point">
+                <input type="text" id="B_b" placeholder="Enter your point .EX : (x,y)">
             </div>
         </div>
     
@@ -100,6 +100,12 @@
                 <label for="k"><var>k</var> = </label>
                 <input type="number" id="k" placeholder="Enter number">
             </div>
+            <p id="plaintext">String Plaintext: </p>
+            <div>
+                <label for="plain"></label>
+                <input type="text" id="plain" placeholder="Type your plaintext">
+                <button class = "convert btn" type="submit">Convert</button>
+            </div>
             <p>Choose point M</p>
             <div class="input-item">
                 <label for="mm"><var>M</var> = </label>
@@ -109,10 +115,8 @@
             <p id = m>M:</p>
             <p>Caculator <var>M1</var> = <var>k</var>.<var>P</var><sub>B</sub></p>
             <p>Caculator <var>M2</var> = <var>M</var> + <var>k</var>.<var>B</var><sub>B</sub></p>
-            <label for="m"> <var>m</var> = </label>
-            <input type="number" id="m" placeholder="Enter message m">
             <div>
-                <button class="btn" type="submit">Encrypt</button>
+                <button class="encrypt btn" type="submit">Encrypt</button>
             </div>
             <p id="c1-value"><var>M1</var> = </p>
             <p id="c2-value"><var>M2</var> = </p>
@@ -121,7 +125,7 @@
         <h2>Step 5: Encrypt Signature by private key A</h2>
         <div class="calculation-section">
             <div>
-                <button class="btn" type="submit">Encrypt Signature</button>
+                <button class=" signature btn" type="submit">Encrypt Signature</button>
             </div>
             <p id="m-encrypt-value">Encrypt Signature: </p>
         </div>
@@ -129,9 +133,9 @@
         <h2>Step 6: Verify Signature by public key A</h2>
         <div class="calculation-section">
             <div>
-                <button class="btn" type="submit">Verify</button>
+                <button class="verify btn" type="submit">Verify</button>
             </div>
-            <p id="m-decrypt-value">Verify: </p>
+            <p id="verify">Verify: </p>
         </div>
     </div>
     

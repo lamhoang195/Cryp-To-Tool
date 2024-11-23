@@ -15,7 +15,8 @@ def create_app():
     from .auth import auth
     from .scripts.rsa import rsa
     from .scripts.elgamal import elgamal
-    from .scripts.elliptic import elliptic, elliptic_signature
+    from .scripts.elliptic import elliptic
+    from .scripts.elliptic_sig import elliptic_signature
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
@@ -28,7 +29,7 @@ def create_app():
     create_database(app)
   
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.signin'
+    login_manager.login_view = 'views.home'
     login_manager.init_app(app)
 
     @login_manager.user_loader

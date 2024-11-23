@@ -6,6 +6,14 @@ async function postData(url, data) {
     });
     return response.json();
 }
+async function post1Data(url, data) {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+}
 function findPointByCoordinates(x, y, points) {
     const point = points.find((point) => point.x === x && point.y === y);
     return point ? point : null;
@@ -254,37 +262,50 @@ if(generatePrimeBtn){
                 document.getElementById("mm").value = plainAsNumber;
             });
         }
-        if (encryptBtn) {
-        encryptBtn.addEventListener("click", () => {
-            const p = parseInt(document.getElementById("p").value);
-            const a = parseInt(document.getElementById("a").value);
-            const P = [parseInt(document.getElementById("x").value), parseInt(document.getElementById("y").value)];
-            const k = parseInt(document.getElementById("k").value);
-            const m = document.getElementById("m").innerText; 
-            const M = [parseInt(convertStringToArray(m)[0]),parseInt(convertStringToArray(m)[1])];
-            const B = scalarMultiplication(s, P, a, p);
-            console.log(B);
-            if(!P || !M || !k || !s){
-                alert("Please enter values for P, M, k, and s.");
-                return;
-            }
-    const encrypted = elGamalEncrypt(p,a,P, M, k, B);
-    document.getElementById("m1-value").innerText = `M1 = (${encrypted.C1})`;
-    document.getElementById("m2-value").innerText = `M2 = (${encrypted.C2})`;
+if(encryptBtn){
+    encryptBtn.addEventListener("click", async () => {
+    const p =  parseInt(document.getElementById("p").value);
+    const a =  parseInt(document.getElementById("a").value);
+    const b =  parseInt(document.getElementById("b").value);
+    const m = document.getElementById("m").innerText; 
+    const M = [parseInt(convertStringToArray(m)[0]),parseInt(convertStringToArray(m)[1])];
+    const P = [parseInt(document.getElementById("x").value), parseInt(document.getElementById("y").value)];
+    const s = parseInt(document.getElementById("s").value);
+    const k = parseInt(document.getElementById("k").value);
+    if (!M || !p || !a || !b || !s || !x || !y) {
+        alert("Please enter values for m, p, a, b, s, x, and y.");
+        return;
+    }
+
+    const data = await post1Data("/elliptic/encrypt", { M, p, a, b, k,P , s });
+    if (data.error) {
+        alert(data.error);
+    } else {
+        document.getElementById("m1-value").innerText = `M1 = ${data.C1}`;
+        document.getElementById("m2-value").innerText = `M2 = ${data.C2}`;
+    }
 });
-        }
+}
 if(decryptBtn){
-decryptBtn.addEventListener("click", () => {
+decryptBtn.addEventListener("click", async () => {
     const p = parseInt(document.getElementById("p").value);
     const a = parseInt(document.getElementById("a").value);
     const b = parseInt(document.getElementById("b").value);
     const s = parseInt(document.getElementById("s").value);
-    const encrypted = {
-        C1: [parseInt(document.getElementById("m1-decrypt").value), parseInt(document.getElementById("m2-decrypt").value)],
-        C2: [parseInt(document.getElementById("m1-decrypt-y").value),parseInt(document.getElementById("m2-decrypt-y").value)]
-    };
-    const decrypted = elGamalDecrypt(p, a, b, s, encrypted.C1, encrypted.C2);
-    document.getElementById("m-decrypt-value").innerText = `m = (${decrypted.x}, ${decrypted.y})`;
+    const P = [parseInt(document.getElementById("x").value), parseInt(document.getElementById("y").value)];
+    const C1= [parseInt(document.getElementById("m1-decrypt").value), parseInt(document.getElementById("m1-decrypt-y").value)];
+    const C2= [parseInt(document.getElementById("m2-decrypt").value),parseInt(document.getElementById("m2-decrypt-y").value)];
+    if (!p || !a || !b || !s || !P || !C1 || !C2) {
+        alert("Please enter values for p, a, b, s, P, C1, and C2.");
+        return;
+    }
+    const data = await post1Data("/elliptic/decrypt", { p, a, b, s,P, C1, C2 });
+    console.log(data);
+    if (data.error) {
+        alert(data.error);
+    } else {
+        document.getElementById("m-decrypt-value").innerText = `m = (${data.M})`;
+    }
 });
 }
 

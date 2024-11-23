@@ -112,9 +112,7 @@ class ECElGamalCryptoSystem(CryptoSystem[
     
     def decrypt(self,ec,s,M1,M2):
         M = ec.add_points(M2, ec.scale_point(-s, M1))
-        plain_number = convert_point_on_curve_to_plain_number(BIT_PADDING_CONFIG, ec, M)
-            
-        return plain_number
+        return M
     
     def str2plaintext(self, public_key: ECElGamalPublicKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
