@@ -101,31 +101,18 @@ class ECElGamalCryptoSystem(CryptoSystem[
         
         return ECElGamalCiphertext(pairs)
     
-    def encrypt(self, public_key: ECElGamalPublicKey, plain_text: Plaintext) -> ECElGamalCiphertext:
-        ec, B = public_key.ec, public_key.B
+    def encrypt(self, ec ,B, k :int , M ):
         P = ec.starting_point
-        numbers = plain_text.numbers
-        pairs: list[ECElGamalCiphertextPair] = []
-
-        for number in numbers:
-            M = convert_plain_number_to_point_on_curve(BIT_PADDING_CONFIG, ec, number)
-            k = randrange(ec.p // 2, ec.p)
-            M1 = ec.scale_point(k, P)
-            M2 = ec.add_points(M, ec.scale_point(k, B))
-            pairs.append(ECElGamalCiphertextPair(M1, M2))
-        return ECElGamalCiphertext(pairs)
+        M1 = ec.scale_point(k, P)
+        M2 = ec.add_points(M, ec.scale_point(k, B))
+        pairs = []
+        pairs.append(M1)
+        pairs.append(M2)
+        return pairs
     
-    def decrypt(self, private_key: ECElGamalPrivateKey, cipher_text: ECElGamalCiphertext) -> Plaintext:
-        ec = private_key.ec
-        s = private_key.s
-
-        plain_numbers: list[int] = []
-        for pair in cipher_text.pairs:
-            M1, M2 = pair.M1, pair.M2
-            M = ec.add_points(M2, ec.scale_point(-s, M1))
-            plain_number = convert_point_on_curve_to_plain_number(BIT_PADDING_CONFIG, ec, M)
-            plain_numbers.append(plain_number)
-        return Plaintext(plain_numbers)
+    def decrypt(self,ec,s,M1,M2):
+        M = ec.add_points(M2, ec.scale_point(-s, M1))
+        return M
     
     def str2plaintext(self, public_key: ECElGamalPublicKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)

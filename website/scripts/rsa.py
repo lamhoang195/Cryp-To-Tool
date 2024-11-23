@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,request,flash,jsonify
+from flask import Blueprint,request,jsonify
 from flask_login import login_required
 from crypto.Mathematic.is_prime import is_prime
 from crypto.systems.CryptoRSA import generate_RSA_privatekey,RSACryptoSystem,RSACryptoPublicKey,RSACryptoPrivateKey
@@ -19,22 +19,19 @@ def rsa_genprivatekey():
         if not (isinstance(p,int) and isinstance(q,int)):
             return jsonify({'error': 'p and q must be integers.'})
         n,d= generate_RSA_privatekey(p,q,e)
-        print(n,d)
-        return jsonify({'n': str(n) , 'd': str(d)})
+        return jsonify({'n': str(n), 'd': str(d)})
     except Exception as e:
         return jsonify({'error': str(e)})
 @rsa.route('/genprime', methods=['POST'])
 def rsa_genprime():
     try:
-        if 'bits' not in request.form:
-            return jsonify({'error': 'Bits not specified.'})
         if not request.form['bits'].isdigit():
             return jsonify({'error': 'Bits must be a positive integer.'})
         if int(request.form['bits']) < 1:
             return jsonify({'error': 'Bits must be a positive integer.'})
         bits = int(request.form['bits'])
-        p = random_prime(lbound=2**bits, ubound=2 ** (bits + 1))
-        q = random_prime(lbound=2**bits, ubound=2 ** (bits + 1))
+        p = str(random_prime(lbound=2**bits, ubound=2 ** (bits + 1)))
+        q = str(random_prime(lbound=2**bits, ubound=2 ** (bits + 1)))
         return jsonify({'p': p, 'q': q})
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -48,6 +45,7 @@ def encrypt():
             return jsonify({'error': 'Message m must be between 0 and n-1.'})
         public_key = RSACryptoPublicKey(n, e)
         c = RSA.encrypt(public_key, m)
+        return jsonify({'c': str(c)})
         return jsonify({'c': str(c)})
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -63,6 +61,7 @@ def decrypt():
         private_key = RSACryptoPrivateKey(n, d)
         m = RSA.decrypt(private_key, c)
         return jsonify({'m': str(m)})
+        return jsonify({'m': str(m)})
     except Exception as e:
         return jsonify({'error': str(e)})
 @rsa.route('/', methods=['POST'])
@@ -72,5 +71,15 @@ def convert():
         plain = RSA.str2plaintext(None, plain)
         plain = str(plain)
         return jsonify({'plain': plain})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+@rsa.route('/submit', methods=['POST'])
+def submit():
+    try:
+        p = int(request.form['p'])
+        q = int(request.form['q'])
+        n = p * q
+        phi_n = (p - 1) * (q - 1)
+        return jsonify({'n': str(n), 'phi_n': str(phi_n)})
     except Exception as e:
         return jsonify({'error': str(e)})

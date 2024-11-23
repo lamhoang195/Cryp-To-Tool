@@ -22,34 +22,32 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Bits must be between 1 and 1024.");
         return;
     }
-
     const data = await postData("/rsa/genprime", { bits });
     if (data.error) {
         alert(data.error);
     } else {
-        document.getElementById("p").value = data.p;
-        document.getElementById("q").value = data.q;
+        document.getElementById("p").value =data.p;
+        document.getElementById("q").value =data.q;
     }
 });
     }
-    if (submitBtn) {
-      submitBtn.addEventListener("click", async () => {
-        const p = document.getElementById("p").value;
-        const q = document.getElementById("q").value;
-
-        if (!p || !q) {
-          alert("Please enter values for p, q");
-          return;
-        }
-        n = BigInt(p) * BigInt(q); // Sử dụng BigInt để xử lý số lớn
-        phi_n = (BigInt(p) - 1n) * (BigInt(q) - 1n); // Cần "1n" để tương thích với BigInt
-        document.getElementById(
-          "n-value"
-        ).innerText = `Result: n = ${n.toString()}`; // Hiển thị số không bị làm tròn
-        document.getElementById(
-          "phi-value"
-        ).innerText = `Result: φ(n) = ${phi_n.toString()}`;
-      });
+    if(submitBtn){
+        submitBtn.addEventListener("click", async () => {
+    const p = document.getElementById("p").value;
+    const q = document.getElementById("q").value;
+    
+    if (!p || !q) {
+        alert("Please enter values for p, q");
+        return;
+    }
+    const data = await postData("/rsa/submit", { p, q });
+    if (data.error) {
+        alert(data.error);
+    } else {
+    document.getElementById("n-value").innerText = `Result: n = ${data.n}`;
+    document.getElementById("phi-value").innerText = `Result: φ(n) = ${data.phi_n}`;
+    }
+});
     }
     if (generateKeysBtn) {
       generateKeysBtn.addEventListener("click", async () => {

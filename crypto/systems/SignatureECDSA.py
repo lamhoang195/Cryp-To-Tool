@@ -63,38 +63,23 @@ class ECDSASignatureSystem(SignatureSystem[
         )
         return ECDSASignatureVerifierKey(ec, n, Q)
     
-    def sign(self, signer_key: ECDSASignatureSignerKey, plain_text: Plaintext) -> Plaintext:
-        ec = signer_key.ec
-        n = signer_key.n
-        d = signer_key.d
+    def sign(self, ec,n,d, M):
         G = ec.starting_point
-
-        def sign_single(number: int) -> tuple[int, int]:
-            s = 0
+        s = 0
+        r = 0
+        while s == 0:
             r = 0
-            while s == 0:
-                r = 0
-                k = 0
-                while r == 0:
-                    k = randrange(1, n - 1)
-                    x1 = ec.scale_point(k, G)[0]
-                    r = x1 % n
+            k = 0
+            while r == 0:
+                k = randrange(1, n - 1)
+                x1 = ec.scale_point(k, G)[0]
+                r = x1 % n
                 
-                h = number # maybe SHA-512 here
-                one_per_k_mod_n = inverse(k, n)
-                if one_per_k_mod_n is None:
-                    raise RuntimeError(f"This case should not happen: Could not find the inverse of {k} mod {n}")
-
-                s = (h + d * r) % n * one_per_k_mod_n % n
+            h = M
+            one_per_k_mod_n = inverse(k, n)
+            s = (h + d * r) % n * one_per_k_mod_n % n
             
             return r, s
-        
-        r_s_pairs = [sign_single(number) for number in plain_text.numbers]
-        numbers: list[int] = []
-        for r, s in r_s_pairs:
-            numbers.append(r)
-            numbers.append(s)
-        return Plaintext(numbers)
     
     def verify(self, verifier_key: ECDSASignatureVerifierKey, plain_text: Plaintext, signature: Plaintext) -> bool:
         ec = verifier_key.ec
