@@ -46,6 +46,7 @@ def encrypt():
         public_key = RSACryptoPublicKey(n, e)
         c = RSA.encrypt(public_key, m)
         return jsonify({'c': str(c)})
+        return jsonify({'c': str(c)})
     except Exception as e:
         return jsonify({'error': str(e)})
 
@@ -59,6 +60,7 @@ def decrypt():
         n = int(request.form['n'])
         private_key = RSACryptoPrivateKey(n, d)
         m = RSA.decrypt(private_key, c)
+        return jsonify({'m': str(m)})
         return jsonify({'m': str(m)})
     except Exception as e:
         return jsonify({'error': str(e)})
