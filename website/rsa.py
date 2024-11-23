@@ -4,8 +4,8 @@ from crypto.Mathematic.is_prime import is_prime
 from crypto.systems.CryptoRSA import generate_RSA_privatekey,RSACryptoSystem,RSACryptoPublicKey,RSACryptoPrivateKey
 from crypto.Mathematic import random_prime
 rsa = Blueprint('rsa', __name__)
-rsa_signature = Blueprint('rsa_signature', __name__)
 RSA = RSACryptoSystem()
+
 @rsa.route('/genprivatekey', methods=['POST'])
 def rsa_genprivatekey():
     try:
@@ -23,6 +23,7 @@ def rsa_genprivatekey():
         return jsonify({'n': str(n) , 'd': str(d)})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
 @rsa.route('/genprime', methods=['POST'])
 def rsa_genprime():
     try:
@@ -35,9 +36,25 @@ def rsa_genprime():
         bits = int(request.form['bits'])
         p = random_prime(lbound=2**bits, ubound=2 ** (bits + 1))
         q = random_prime(lbound=2**bits, ubound=2 ** (bits + 1))
-        return jsonify({'p': p, 'q': q})
+        return jsonify({'p': str(p), 'q': str(q)})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+@rsa.route('/genprimeee', methods=['POST'])
+def rsa_genprimeee():
+    try:
+        if 'bitse' not in request.form:
+            return jsonify({'error': 'Bits not specified.'})
+        if not request.form['bitse'].isdigit():
+            return jsonify({'error': 'Bits must be a positive integer.'})
+        if int(request.form['bitse']) < 1:
+            return jsonify({'error': 'Bits must be a positive integer.'})
+        bitse = int(request.form['bitse'])
+        e = random_prime(lbound=2**bitse, ubound=2 ** (bitse + 1))
+        return jsonify({'e': str(e)})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
 @rsa.route('/encrypt', methods=['POST'])
 def encrypt():
     try:
@@ -65,6 +82,7 @@ def decrypt():
         return jsonify({'m': str(m)})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
 @rsa.route('/', methods=['POST'])
 def convert():
     try:

@@ -58,12 +58,15 @@ body {
 
 input[type="number"] {
     width: 100%; /* Chiếm toàn bộ chiều rộng của container */
-    max-width: 500px; /* Đặt giới hạn chiều rộng tối đa */
+    max-width: 750px; /* Đặt giới hạn chiều rộng tối đa */
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
+    word-wrap: break-word; /* Cho phép ngắt từ */
+    overflow-wrap: break-word; /* Thêm hỗ trợ */
+    white-space: normal;
 }
 input[type = "text"] {
     width: 100%;
@@ -98,4 +101,7 @@ input[type = "text"] {
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 30px;
+    word-wrap: break-word; /* Cho phép ngắt từ */
+    overflow-wrap: break-word; /* Thêm hỗ trợ */
+    white-space: normal;
 }

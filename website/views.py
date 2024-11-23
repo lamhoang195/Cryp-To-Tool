@@ -24,7 +24,7 @@ def elgamal():
 def elliptic():
     return render_template("elliptic.html")
 
-@views.route('/rsa__signature')
+@views.route('/rsa_signature')
 @login_required
 def rsa_signature():
     return render_template("rsa_signature.html")

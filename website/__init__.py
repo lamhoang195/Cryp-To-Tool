@@ -14,9 +14,15 @@ def create_app():
     from .views import views
     from .auth import auth
     from .rsa import rsa
+    from .rsa_signature import rsa_signature
+    from .elgamal_signature import elgamal_signature
+
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(rsa, url_prefix='/rsa')
+    app.register_blueprint(rsa_signature, url_prefix='/rsa_signature')
+    app.register_blueprint(elgamal_signature, url_prefix='/elgamal_signature')
+    
     from .models import User
 
     create_database(app)

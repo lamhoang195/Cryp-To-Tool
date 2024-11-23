@@ -55,6 +55,7 @@ def generate_RSA_keypair(
             f"e mod phi_n is not invertible, i.e. cannot calculate e^(-1) mod phi_n, with e = {e} and phi_n = {phi_n}"
         )
     return (n, e), (n, d)
+
 def generate_RSA_privatekey(p :int ,q :int,e :int) -> tuple[int, int]:
     n = p * q
     phi_n = (p - 1) * (q - 1)

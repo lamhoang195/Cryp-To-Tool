@@ -11,49 +11,41 @@ def h(x: int) -> int:
     return x
 
 class RSASignatureSignerKey:
-    def __init__(self, n: int, a: int) -> None:
+    def __init__(self, n: int, d: int) -> None:
         self.n = n
-        self.a = a
+        self.d = d
     
     def __repr__(self) -> str:
-        return f"RSASignatureSignerKey(n = {self.n} , a = {self.a})"
+        return f"RSASignatureSignerKey(n = {self.n} , a = {self.d})"
 
 class RSASignatureVerifierKey:
-    def __init__(self, n: int, b: int) -> None:
+    def __init__(self, n: int, e: int) -> None:
         self.n = n
-        self.b = b
+        self.e = e
 
     def __repr__(self) -> str:
-        return f"RSASignatureVerifierKey(n = {self.n} , b = {self.b})"
+        return f"RSASignatureVerifierKey(n = {self.n} , b = {self.e})"
 
 class RSASignatureSystem(SignatureSystem[RSASignatureSignerKey, RSASignatureVerifierKey]):
     def generate_keypair(self) -> tuple[RSASignatureSignerKey, RSASignatureVerifierKey]:
-        (n, b), (n, a) = generate_RSA_keypair(SIGNATURE_BITS[0], SIGNATURE_BITS[1])
-        return RSASignatureSignerKey(n, a), RSASignatureVerifierKey(n, b)
+        (n, e), (n, d) = generate_RSA_keypair(SIGNATURE_BITS[0], SIGNATURE_BITS[1])
+        return RSASignatureSignerKey(n, d), RSASignatureVerifierKey(n, e)
     
     def ask_verification_key_interactively(self, prompt: str|None = None) -> RSASignatureVerifierKey:
         print(prompt)
-        n, b = int(input("n = ")), int(input("b = "))
-        return RSASignatureVerifierKey(n, b)
+        n, e = int(input("n = ")), int(input("e = "))
+        return RSASignatureVerifierKey(n, e)
     
-    def sign(self, signer_key: RSASignatureSignerKey, plain_text: Plaintext) -> Plaintext:
-        n, a = signer_key.n, signer_key.a
-        signed_numbers: list[int] = []
-        for x in plain_text.numbers:
-            sig = modpower(h(x), a, n)
-            signed_numbers.append(sig)
-        return Plaintext(signed_numbers)
+    def sign(self, signer_key: RSASignatureSignerKey, plain_text: Plaintext) -> int:
+        n, d = signer_key.n, signer_key.d
+        sig = modpower(plain_text, d, n)
+        return sig
     
-    def verify(self, verifier_key: RSASignatureVerifierKey, plain_text: Plaintext, signature: Plaintext) -> bool:
-        n, b = verifier_key.n, verifier_key.b
-        if len(plain_text.numbers) != len(signature.numbers):
+    def verify(self, verifier_key: RSASignatureVerifierKey, plain_text: Plaintext, signature: int) -> bool:
+        n, e = verifier_key.n, verifier_key.e
+        
+        if plain_text % n != modpower(signature, e, n):
             return False
-        for i in range(len(plain_text.numbers)):
-            x = plain_text.numbers[i]
-            y = signature.numbers[i]
-            matched = h(x) % n == modpower(y, b, n) % n
-            if not matched:
-                return False
         return True
 
     def str2plaintext_signer(self, signer_key: RSASignatureSignerKey, string: str) -> Plaintext:

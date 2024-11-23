@@ -47,7 +47,6 @@ class ElGamalCiphertext:
 
 def ElGamal_generate_keypair(pbits: int) -> tuple[tuple[int, int, int], tuple[int, int], dict[int, int]]:
     p, fact_of_p_minus_1 = random_prime_with_fact_of_p_minus_1(lbound=f"{pbits}b", ubound=f"{pbits + 1}b")
-    # alpha = p // 2
     alpha = 2
     while not is_primitive_root_fast(alpha, p, fact_of_p_minus_1):
         alpha += 1
@@ -56,12 +55,18 @@ def ElGamal_generate_keypair(pbits: int) -> tuple[tuple[int, int, int], tuple[in
 
     return (p, alpha, beta), (p, a), fact_of_p_minus_1
 
+def generate_ELGAMAL_publickey(p :int ,alpha :int, a:int) -> tuple[int, int, int]:
+    beta = modpower(alpha, a, p)
+    return (p, alpha, beta)
+
+def generate_ELGAMAL_privatekey(p :int ,a :int) -> tuple[int, int]:
+    return (p, a)
+
 class ElGamalCryptoPublicKey:
-    def __init__(self, p: int, alpha: int, beta: int, fact_of_p_minus_1: dict[int, int]):
+    def __init__(self, p: int, alpha: int, beta: int):
         self.p = p
         self.alpha = alpha
         self.beta = beta
-        self.fact_of_p_minus_1 = dict(fact_of_p_minus_1)
     
     def __repr__(self) -> str:
         return f"ElGamalCryptoPublicKey(p = {self.p}, alpha = {self.alpha}, beta = {self.beta})"
@@ -80,9 +85,6 @@ class ElGamalCryptoSystem(CryptoSystem[
     ElGamalCiphertext,
 ]):
     def generate_keypair(self) -> tuple[ElGamalCryptoPublicKey, ElGamalCryptoPrivateKey]:
-        # Note: if pbits is too small, the cryptosystem may not work properly
-        # (e.g. the plaintext may not be able to be encrypted or decrypted properly)
-        # due to modulo p operations.
         (p, alpha, beta), (p, a), fact_of_p_minus_1 = ElGamal_generate_keypair(CRYPTO_BITS)
         return ElGamalCryptoPublicKey(p, alpha, beta, fact_of_p_minus_1), ElGamalCryptoPrivateKey(p, a)
     
@@ -108,39 +110,25 @@ class ElGamalCryptoSystem(CryptoSystem[
             cipher_pairs.append(ElGamalCiphertextPair(y1, y2))
         return ElGamalCiphertext(cipher_pairs)
     
-    def encrypt(self, public_key: ElGamalCryptoPublicKey, plain_text: Plaintext) -> ElGamalCiphertext:
-        p, alpha, beta, fact_of_p_minus_1 = public_key.p, public_key.alpha, public_key.beta, public_key.fact_of_p_minus_1
-        def encrypt_number(plain_number: int) -> ElGamalCiphertextPair:
-            n = convert_plain_number_to_primitive_root(p, plain_number, fact_of_p_minus_1)
-
-            one_per_n = inverse(n, p)
-            if one_per_n is None:
-                raise ValueError(f"n is not invertible in Z_p (this should not happen). n = {n}, p = {p}")
-
-            k = randrange(2, p - 1)
-            y1 = modpower(alpha, k, p)
-            y2 = n * modpower(beta, k, p) % p
-
-            return ElGamalCiphertextPair(y1, y2)
+    def encrypt(self, public_key: ElGamalCryptoPublicKey,k :int  ,plain_text: Plaintext) ->  tuple[int, int]:
+        p, alpha, beta = public_key.p, public_key.alpha, public_key.beta
         
-        cipher_pairs = [ encrypt_number(plain_number) for plain_number in plain_text.numbers ]
-        return ElGamalCiphertext(cipher_pairs)
+        y1 = modpower(alpha, k, p)
+        y2 = plain_text * modpower(beta, k, p) % p
+
+        return y1,y2
     
-    def decrypt(self, private_key: ElGamalCryptoPrivateKey, cipher_text: ElGamalCiphertext) -> Plaintext:
+    def decrypt(self, private_key: ElGamalCryptoPrivateKey, cipher_text: ElGamalCiphertext) -> int:
         p, a = private_key.p, private_key.a
-        def decrypt_number(cipher_pair: ElGamalCiphertextPair) -> int:
-            y1 = cipher_pair.y1
-            y2 = cipher_pair.y2
-            # x = y2 * modpower(y1, p - 1 - a, p) % p
-            s = modpower(y1, a, p)
-            s = inverse(s, p)
-            if s is None:
-                raise RuntimeError(f"Could not find s such that y1^a * s = 1 mod p. y1 = {y1}, a = {a}, p = {p}")
-            x = y2 * s % p
-            return convert_primitive_root_to_plain_number(x)
-        
-        plain_numbers = [ decrypt_number(cipher_pair) for cipher_pair in cipher_text.cipher_pairs ]
-        return Plaintext(plain_numbers)
+        c1 = cipher_text[0]
+        c2 = cipher_text[1]
+        s = modpower(c1, a, p)
+        s = inverse(s, p)
+        if s is None:
+            raise RuntimeError(f"Could not find s such that y1^a * s = 1 mod p. c1 = {c1}, a = {a}, p = {p}")
+        m = c2 * s % p
+        return m
+    
     def str2plaintext(self, public_key: ElGamalCryptoPublicKey, string: str) -> Plaintext:
         return Plaintext.from_string(string)
     

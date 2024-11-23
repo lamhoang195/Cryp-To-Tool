@@ -1,7 +1,7 @@
 import sys
 sys.set_int_max_str_digits(2147483647) # 2^31 - 1
 
-def extended_euclidean(a: int, b: int) -> tuple[int, int|None, int, int]:
+def extended_euclidean(a: int, b: int) -> tuple[int, int, int, int]:
     """Returns (gcd, inverse, x, y)"""
     B = b
 
@@ -40,7 +40,7 @@ def gcd(a: int, b: int) -> int:
         b = r
     return a
 
-def inverse(a: int, b: int) -> int|None:
+def inverse(a: int, b: int) -> int:
     return extended_euclidean(a, b)[1]
 
 if __name__ == '__main__':
