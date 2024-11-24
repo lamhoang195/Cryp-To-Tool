@@ -19,14 +19,14 @@
             <div class="calculation-section">
                 <div class="input-item">
                     <label for="p"><var>p</var> = </label>
-                    <input type="number" id="p" placeholder="Enter a prime number" value ={{p}} >
+                    <input type="text" id="p" placeholder="Enter a prime number" value="{{p}}">
                 </div>
                 <div class="input-item">
                     <label for="q"><var>q</var> = </label>
-                    <input type="number" id="q" placeholder="Enter a prime number" value = {{q}}>
+                    <input type="text" id="q" placeholder="Enter a prime number" value="{{q}}">
                 </div>
             </div>
-            <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+            <p>Or you can generate prime numbers with number of bits you want from 1 to 2048:</p>
             <div>   
                 <label for="Number of bits">Number of bits</label>
                 <input type="number" id="bits" placeholder="Enter number of bits">
@@ -51,9 +51,9 @@
                 <p>Choose a number <var>e</var> that is coprime to <var>φ</var>(<var>n</var>) and smaller than it.</p>
                 <div class="input-item">
                     <label for="e"> <var>e</var> = </label>
-                    <input type="number" id="e" placeholder="Enter number" value={{e}}>
+                    <input type="text" id="e" placeholder="Enter number" value={{e}}>
                 </div>
-                <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+                <p>Or you can generate prime numbers with number of bits you want from 1 to 4096:</p>
                     <div>   
                         <label for="Number of bits e">Number of bits e</label>
                         <input type="number" id="bitse" placeholder="Enter number of bits e">
@@ -103,7 +103,7 @@
                 <p>It uses the numbers of the private key:</p>
                 <p><var>m</var> = (<var>c</var> ^ <var>d</var>) mod <var>n</var></p>
                 <label for="c-decrypt"> <var>c</var> = </label>
-                <input type="number" id="c-decrypt" placeholder="Enter ciphertext c">
+                <input type="text" id="c-decrypt" placeholder="Enter ciphertext c">
                 <div>
                     <button class="decrypt btn" type="submit">Decrypt</button>
                 </div>

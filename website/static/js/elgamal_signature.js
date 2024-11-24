@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (generatePrimeABtn) {
     generatePrimeABtn.addEventListener("click", async () => {
       const bits = document.getElementById("bits").value;
-      if (!bits || bits < 1 || bits > 1024) {
-        alert("Bits must be between 1 and 1024.");
+      if (!bits || bits < 1 || bits > 4097) {
+        alert("Bits must be between 1 and 4096.");
         return;
       }
       const data = await postData("/elgamal_signature/genprimea", { bits });
@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (generatePrimeBBtn) {
     generatePrimeBBtn.addEventListener("click", async () => {
       const bits = document.getElementById("bits").value;
-      if (!bits || bits < 1 || bits > 1024) {
-        alert("Bits must be between 1 and 1024.");
+      if (!bits || bits < 1 || bits > 4097) {
+        alert("Bits must be between 1 and 4096.");
         return;
       }
       const data = await postData("/elgamal_signature/genprimeb", { bits });

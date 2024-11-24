@@ -19,14 +19,14 @@
         <div class="calculation-section">
             <div class="input-item">
                 <label for="p_a"><var>p</var><sub>A</sub> = </label>
-                <input type="number" id="p_a" placeholder="Enter a prime number" value={{p_a}}>
+                <input type="text" id="p_a" placeholder="Enter a prime number" value={{p_a}}>
             </div>
             <div class="input-item">
                 <label for="q_a"><var>q</var><sub>A</sub> = </label>
-                <input type="number" id="q_a" placeholder="Enter a prime number" value={{q_a}}>
+                <input type="text" id="q_a" placeholder="Enter a prime number" value={{q_a}}>
             </div>
         </div>
-        <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+        <p>Or you can generate prime numbers with number of bits you want from 1 to 2048:</p>
         <div>
             <label for="Number of bits">Number of bits</label>
             <input type="number" id="bits" placeholder="Enter number of bits">
@@ -51,7 +51,7 @@
             <p>Choose a number <var>e<sub>A</sub></var> that is coprime to <var>φ<sub>A</sub></var>(<var>n<sub>A</sub></var>) and smaller than it.</p>
             <div class="input-item">
                 <label for="e_a"> <var>e<sub>A</sub></var> = </label>
-                <input type="number" id="e_a" placeholder="Enter number" value={{e_a}}>
+                <input type="text" id="e_a" placeholder="Enter number" value={{e_a}}>
             </div>
             <p>Or you can choose a prime number close to <var>ϕ(n<sub>A</sub>)</var></p>
                 <div>   
@@ -78,13 +78,13 @@
         <div class="calculation-section">
             <div class="input-item">
                 <label for="p_b"><var>p<sub>B</sub></var> = </label>
-                <input type="number" id="p_b" placeholder="Enter number">
+                <input type="text" id="p_b" placeholder="Enter number">
             </div>
             <div class="input-item">
                 <label for="q_b"><var>q<sub>B</sub></var> = </label>
-                <input type="number" id="q_b" placeholder="Enter number">
+                <input type="text" id="q_b" placeholder="Enter number">
             </div>
-            <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+            <p>Or you can generate prime numbers with number of bits you want from 1 to 2048:</p>
             <div>   
                 <label for="Number of bits">Number of bits</label>
                 <input type="number" id="bitsb" placeholder="Enter number of bits">
@@ -97,7 +97,7 @@
             <p id="phi_n_b"><var>ϕ</var>(<var>n</var><sub>b</sub>) = </p>
             <div class="input-item">
                 <label for="e_b"><var>e<sub>B</sub></var> = </label>
-                <input type="number" id="e_b" placeholder="Enter number" value={{e_b}}>
+                <input type="text" id="e_b" placeholder="Enter number" value={{e_b}}>
             </div>
             <p>Or you can choose a prime number close to <var>ϕ(n<sub>B</sub>)</var></p>
             <div>   
@@ -153,7 +153,7 @@
             <p><var>ver<sub>K<sup>''</sup></sub><var>(x, y)</var></var> = (<var>sig</var><sup><var>e<sub>A</sub></var></sup>) mod <var>n<sub>A</sub></var> = <var>m</var> mod <var>n<sub>A</sub></var></p>
             <div>
                 <label for="sig-veri"> <var>sig</var> = </label>
-                <input type="number" id="sig-veri" placeholder="Enter message m">
+                <input type="text" id="sig-veri" placeholder="Enter message m">
             </div>
             <div>
                 <button class="decrypt-sig btn" type="submit">Verify</button>
@@ -166,7 +166,7 @@
             <p><var>m</var> = (<var>c</var><sup><var>d<sub>B</sub></var></sup>) mod <var>n<sub>B</sub></var></p>
             <div>
                 <label for="c-decrypt"> <var>c</var> = </label>
-                <input type="number" id="c-decrypt" placeholder="Enter ciphertext c">
+                <input type="text" id="c-decrypt" placeholder="Enter ciphertext c">
             </div>   
             <div>
                 <button class="decrypt btn" type="submit">Decrypt</button>

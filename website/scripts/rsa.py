@@ -31,9 +31,9 @@ def rsa_genprime():
         if int(request.form['bits']) < 1:
             return jsonify({'error': 'Bits must be a positive integer.'})
         bits = int(request.form['bits'])
-        p = str(random_prime(lbound=2**bits, ubound=2 ** (bits + 1)))
-        q = str(random_prime(lbound=2**bits, ubound=2 ** (bits + 1)))
-        return jsonify({'p': p, 'q': q})
+        p = random_prime(lbound=2**bits, ubound=2 ** (bits + 1))
+        q = random_prime(lbound=2**bits, ubound=2 ** (bits + 1))
+        return jsonify({'p': str(p), 'q': str(q)})
 
     except Exception as e:
         return jsonify({'error': str(e)})

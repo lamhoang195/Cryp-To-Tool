@@ -56,7 +56,7 @@ def eliptic_decrypt():
         b = int(data.get('b')) 
         s = int(data.get('s'))
         P = data.get('P')
-        curve = EllipticCurve(p, a, b,P)
+        curve = EllipticCurve(p, a, b, P)
         M = ECElGamal.decrypt(curve,s, C1, C2)
         return jsonify({'M': M})
     except Exception as e:

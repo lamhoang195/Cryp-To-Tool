@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (generatePrimeBtn) {
       generatePrimeBtn.addEventListener("click", async () => {
         const bits = document.getElementById("bits").value;
-        if (!bits || bits < 1 || bits > 1024) {
-          alert("Bits must be between 1 and 1024.");
+        if (!bits || bits < 1 || bits > 2049) {
+          alert("Bits must be between 1 and  2048.");
           return;
         }
 
@@ -33,31 +33,35 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
-    if(submitBtn){
-        submitBtn.addEventListener("click", async () => {
-    const p = document.getElementById("p").value;
-    const q = document.getElementById("q").value;
-    
-    if (!p || !q) {
-        alert("Please enter values for p, q");
-        return;
-    }
-    const data = await postData("/rsa/submit", { p, q });
-    if (data.error) {
-        alert(data.error);
-    } else {
-    document.getElementById("n-value").innerText = `Result: n = ${data.n}`;
-    document.getElementById("phi-value").innerText = `Result: φ(n) = ${data.phi_n}`;
-    }
-});
+    if (submitBtn) {
+      submitBtn.addEventListener("click", async () => {
+        const p = document.getElementById("p").value;
+        const q = document.getElementById("q").value;
+
+        if (!p || !q) {
+          alert("Please enter values for p, q");
+          return;
+        }
+        const data = await postData("/rsa/submit", { p, q });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById(
+            "n-value"
+          ).innerText = `Result: n = ${data.n}`;
+          document.getElementById(
+            "phi-value"
+          ).innerText = `Result: φ(n) = ${data.phi_n}`;
+        }
+      });
     }
 
     if (generatePrimeEEBtn) {
       generatePrimeEEBtn.addEventListener("click", async () => {
         const bitse = document.getElementById("bitse").value;
 
-        if (!bitse || bitse < 1 || bitse > 2048) {
-          alert("Bits must be between 1 and 2048.");
+        if (!bitse || bitse < 1 || bitse > 4097) {
+          alert("Bits must be between 1 and 4096.");
           return;
         }
 
