@@ -277,12 +277,12 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Please enter values for s, p, a, b, m, and P.");
             return;
         }
-        const data = await post1Data("/elliptic_signature/sign", { s, p, a, b, M, P });
-        if (data.error) {
-            alert(data.error);
-        } else {
-            document.getElementById("m-encrypt-value").innerText = ` (${data.r},${data.s})`;
-        }
+        const data = await postData("/elliptic_signature/genprime", { bits });
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById("m-decrypt-value").innerText = 'Encrypt Signature: '+data.p;
+                }
     });
 }
 if(verifyBtn){
