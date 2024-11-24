@@ -24,6 +24,23 @@ cd Cryp-To-Tool
 Install dependencies:
 pip install -r requirements.txt
 Run the app:
-flask run 
+flask run
+
+
+| Student ID |     Full Name     |
+| :--------: | ----------------- |
+|  22028150  | Lê Bá Hoàng       |
+|  22028167  | Khổng Mạnh Tuấn   |
+
+
+|    # | Name                           | Description                                           | Key length (bits) (\*) | 
+| ---: | ------------------------------ | ----------------------------------------------------- | :--------------------: |
+|    1 | CryptoRSA                      | RSA Cipher                                            |          4096          | 
+|    2 | CryptoElGamal                  | ElGamal Cipher                                        |          4096          | 
+|    3 | CryptoECElGamal                | EC-ElGamal Cipher                                     |          29            |   
+|    4 | CryptoRSA_SignatureRSA         | RSA Cipher and Signature System combined              |          4096          |     
+|    5 | CryptoElGamal_SignatureElGamal | ElGamal Cipher and ElGamal Signature System combined  |          1024          |   
+|    6 | CryptoECElGamal_SignatureECDSA | EC-ElGamal Cipher and ECDSA Signature System combined |          29            |   
+      
 
 

@@ -125,169 +125,205 @@ function findPointsOnCurve(a, b, p) {
     return points;
 }
 document.addEventListener("DOMContentLoaded", function () {
-    const generatePrimeBtn = document.querySelector(".generate-prime.btn");
-    const generatepointBtn = document.querySelector(".generate-point.btn");
-    const generateEllipticBtn = document.querySelector(".generate-elliptic.btn");
-    const encryptBtn = document.querySelector(".encrypt.btn");
-    const signatureBtn = document.querySelector(".signature.btn");
-    const verifyBtn = document.querySelector(".verify.btn");
-            if(generatePrimeBtn){
-                generatePrimeBtn.addEventListener("click", async () => {
-                const bits = document.getElementById("bits").value;
-            
-                if (!bits) {
-                    alert("Please enter the number of bits to generate a prime number .");
-                    return;
-                }
-            
-                const data = await postData("/elliptic_signature/genprime", { bits });
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    document.getElementById("p").value = data.p;
-                }
-            });
-            }
-            if (generateEllipticBtn) {
-                generateEllipticBtn.addEventListener("click", () => {
-                    const p = parseInt(document.getElementById("p").value);
-                    const a = parseInt(document.getElementById("a").value);
-                    const b = parseInt(document.getElementById("b").value);
-        
-                    if (!p || !a || !b) {
-                        alert("Please enter values for p, a, and b.");
-                        return;
-                    }
-        
-                    try {
-                        document.getElementById("curve").innerText = `y² = x³ + ${a}x + ${b} mod ${p}`;
-                        const points = findPointsOnCurve(a, b, p);
-                        const pointList = points.slice(0,30)
-                            .map((point) => `(${point.x}, ${point.y})`)
-                            .join(", ");
-                        document.getElementById("points").innerText =
-                            `Points on curve: ${pointList}`;
-                    } catch (e) {
-                        alert(e.message);
-                    }
-                });
-            }
-            if (!generatepointBtn) {
-                console.error("Generate Point button not found!");
-                return;
-            }
-        
-            generatepointBtn.addEventListener("click", () => {
-                const p = parseInt(document.getElementById("p").value);  
-                const a = parseInt(document.getElementById("a").value);
-                const b = parseInt(document.getElementById("b").value);
-                const m = parseInt(document.getElementById("mm").value);
-                const points = findPointsOnCurve(a, b, p);
-                if (!p || !a || !b || !m) {
-                    alert("Please enter values for p, a, b, and m.");
-                    return;
-                }
-                const point = points.find((point) => point.x == m%p);
-                document.getElementById("m").innerText = `(${point.x}, ${point.y})`;
-            });
-            const convertBtn = document.querySelector(".convert.btn");
-            if (convertBtn) {
-                convertBtn.addEventListener("click", () => {
-                    const plaintext = document.getElementById("plain").value.trim();
-                    if (!plaintext) {
-                        alert("Please enter plaintext.");
-                        return;
-                    }
-                    const plainAsNumber = str2int(plaintext);
-                    document.getElementById("mm").value = plainAsNumber;
-                });
-            }
-            const sInput = document.getElementById("s");
-            const xInput = document.getElementById("x");
-            const yInput = document.getElementById("y");
-            const betaValue = document.getElementById("beta-value");
-            const publicKeyDisplay = document.getElementById("public-key");
-            const privateKeyDisplay = document.getElementById("private-key");
-        
-            function updateKeys() {
-                const s = parseInt(sInput.value);
-                const pX = parseInt(xInput.value);
-                const pY = parseInt(yInput.value);
-                const a = parseInt(document.getElementById("a").value);
-                const b = parseInt(document.getElementById("b").value);
-                const p = parseInt(document.getElementById("p").value);
-        
-                const P = [pX, pY];
-                const B = scalarMultiplication(s, P, a, p);
-        
-                if (!B) {
-                    betaValue.innerText = "Invalid point or scalar.";
-                    publicKeyDisplay.innerText = "";
-                    privateKeyDisplay.innerText = "";
-                    return;
-                }
-        
-                betaValue.innerText = `β = (${B[0]}, ${B[1]})`;
-                publicKeyDisplay.innerText = `Public key: (p, a, b, P, B) = (${p}, ${a}, ${b}, (${P[0]}, ${P[1]}), (${B[0]}, ${B[1]}))`;
-                privateKeyDisplay.innerText = `Private key: (s) = ${s}`;
-            }
-        
-            sInput.addEventListener("input", updateKeys);
-            xInput.addEventListener("input", updateKeys);
-            yInput.addEventListener("input", updateKeys);
-        if(encryptBtn){
-            encryptBtn.addEventListener("click", async () => {
-            const p =  parseInt(document.getElementById("p_b").value);
-            const a =  parseInt(document.getElementById("alpha_b").value);
-            const b =  parseInt(document.getElementById("beta_b").value);
-            const m = document.getElementById("m").innerText; 
-            const M = [parseInt(convertStringToArray(m)[0]),parseInt(convertStringToArray(m)[1])];
-            const p1 = document.getElementById("P_b").value;
-            const b1 = document.getElementById("B_b").value;
-            const P = [parseInt(convertStringToArray(p1)[0]),parseInt(convertStringToArray(p1)[1])];
-            const B = [parseInt(convertStringToArray(b1)[0]),parseInt(convertStringToArray(b1)[1])];
-            const k = parseInt(document.getElementById("k").value);
-            if (!M || !p || !a || !b || !s || !x || !y) {
-                alert("Please enter values for m, p, a, b, s, x, and y.");
-                return;
-            }
+  const generatePrimeBtn = document.querySelector(".generate-prime.btn");
+  const generatepointBtn = document.querySelector(".generate-point.btn");
+  const generateEllipticBtn = document.querySelector(".generate-elliptic.btn");
+  const encryptBtn = document.querySelector(".encrypt.btn");
+  const signatureBtn = document.querySelector(".signature.btn");
+  const verifyBtn = document.querySelector(".verify.btn");
+  if (generatePrimeBtn) {
+    generatePrimeBtn.addEventListener("click", async () => {
+      const bits = document.getElementById("bits").value;
 
-            const data = await post1Data("/elliptic_signature/encrypt", { M, p, a, b, k,P , B });
+      if (!bits) {
+        alert("Please enter the number of bits to generate a prime number .");
+        return;
+      }
 
-            if (data.error) {
-                alert(data.error);
-            } else {
-                document.getElementById("c1-value").innerText = `M1 = ${data.C1}`;
-                document.getElementById("c2-value").innerText = `M2 = ${data.C2}`;
-            }
-        });
+      const data = await postData("/elliptic_signature/genprime", { bits });
+      if (data.error) {
+        alert(data.error);
+      } else {
+        document.getElementById("p").value = data.p;
+      }
+    });
+  }
+  if (generateEllipticBtn) {
+    generateEllipticBtn.addEventListener("click", () => {
+      const p = parseInt(document.getElementById("p").value);
+      const a = parseInt(document.getElementById("a").value);
+      const b = parseInt(document.getElementById("b").value);
+
+      if (!p || !a || !b) {
+        alert("Please enter values for p, a, and b.");
+        return;
+      }
+
+      try {
+        document.getElementById(
+          "curve"
+        ).innerText = `y² = x³ + ${a}x + ${b} mod ${p}`;
+        const points = findPointsOnCurve(a, b, p);
+        const pointList = points
+          .slice(0, 30)
+          .map((point) => `(${point.x}, ${point.y})`)
+          .join(", ");
+        document.getElementById(
+          "points"
+        ).innerText = `Points on curve: ${pointList}`;
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+  }
+  if (!generatepointBtn) {
+    console.error("Generate Point button not found!");
+    return;
+  }
+
+  generatepointBtn.addEventListener("click", () => {
+    const p = parseInt(document.getElementById("p").value);
+    const a = parseInt(document.getElementById("a").value);
+    const b = parseInt(document.getElementById("b").value);
+    const m = parseInt(document.getElementById("mm").value);
+    const points = findPointsOnCurve(a, b, p);
+    if (!p || !a || !b || !m) {
+      alert("Please enter values for p, a, b, and m.");
+      return;
     }
-    if(signatureBtn){
-        signatureBtn.addEventListener("click", async () => {
-        const s = parseInt(document.getElementById("s").value);
-        const p = parseInt(document.getElementById("p_b").value);
-        const a = parseInt(document.getElementById("alpha_b").value);
-        const b = parseInt(document.getElementById("beta_b").value);
-        const m = document.getElementById("mm").innerText; 
-        const M = [parseInt(convertStringToArray(m)[0]),parseInt(convertStringToArray(m)[1])];
-        const p1 = document.getElementById("P_b").value;
-        const P = [parseInt(convertStringToArray(p1)[0]),parseInt(convertStringToArray(p1)[1])];
+    const point = points.find((point) => point.x == m % p);
+    document.getElementById("m").innerText = `(${point.x}, ${point.y})`;
+  });
+  const convertBtn = document.querySelector(".convert.btn");
+  if (convertBtn) {
+    convertBtn.addEventListener("click", () => {
+      const plaintext = document.getElementById("plain").value.trim();
+      if (!plaintext) {
+        alert("Please enter plaintext.");
+        return;
+      }
+      const plainAsNumber = str2int(plaintext);
+      document.getElementById("mm").value = plainAsNumber;
+    });
+  }
+  const sInput = document.getElementById("s");
+  const xInput = document.getElementById("x");
+  const yInput = document.getElementById("y");
+  const betaValue = document.getElementById("beta-value");
+  const publicKeyDisplay = document.getElementById("public-key");
+  const privateKeyDisplay = document.getElementById("private-key");
 
-        if (!s || !p || !a || !b || !M || !P) {
-            alert("Please enter values for s, p, a, b, m, and P.");
-            return;
-        }
-        const data = await postData("/elliptic_signature/genprime", { bits });
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    document.getElementById("m-decrypt-value").innerText = 'Encrypt Signature: '+data.p;
-                }
+  function updateKeys() {
+    const s = parseInt(sInput.value);
+    const pX = parseInt(xInput.value);
+    const pY = parseInt(yInput.value);
+    const a = parseInt(document.getElementById("a").value);
+    const b = parseInt(document.getElementById("b").value);
+    const p = parseInt(document.getElementById("p").value);
+
+    const P = [pX, pY];
+    const B = scalarMultiplication(s, P, a, p);
+
+    if (!B) {
+      betaValue.innerText = "Invalid point or scalar.";
+      publicKeyDisplay.innerText = "";
+      privateKeyDisplay.innerText = "";
+      return;
+    }
+
+    betaValue.innerText = `β = (${B[0]}, ${B[1]})`;
+    publicKeyDisplay.innerText = `Public key: (p, a, b, P, B) = (${p}, ${a}, ${b}, (${P[0]}, ${P[1]}), (${B[0]}, ${B[1]}))`;
+    privateKeyDisplay.innerText = `Private key: (s) = ${s}`;
+  }
+
+  sInput.addEventListener("input", updateKeys);
+  xInput.addEventListener("input", updateKeys);
+  yInput.addEventListener("input", updateKeys);
+  if (encryptBtn) {
+    encryptBtn.addEventListener("click", async () => {
+      const p = parseInt(document.getElementById("p_b").value);
+      const a = parseInt(document.getElementById("alpha_b").value);
+      const b = parseInt(document.getElementById("beta_b").value);
+      const m = document.getElementById("m").innerText;
+      const M = [
+        parseInt(convertStringToArray(m)[0]),
+        parseInt(convertStringToArray(m)[1]),
+      ];
+      const p1 = document.getElementById("P_b").value;
+      const b1 = document.getElementById("B_b").value;
+      const P = [
+        parseInt(convertStringToArray(p1)[0]),
+        parseInt(convertStringToArray(p1)[1]),
+      ];
+      const B = [
+        parseInt(convertStringToArray(b1)[0]),
+        parseInt(convertStringToArray(b1)[1]),
+      ];
+      const k = parseInt(document.getElementById("k").value);
+      if (!M || !p || !a || !b || !s || !x || !y) {
+        alert("Please enter values for m, p, a, b, s, x, and y.");
+        return;
+      }
+
+      const data = await post1Data("/elliptic_signature/encrypt", {
+        M,
+        p,
+        a,
+        b,
+        k,
+        P,
+        B,
+      });
+
+      if (data.error) {
+        alert(data.error);
+      } else {
+        document.getElementById("c1-value").innerText = `M1 = ${data.C1}`;
+        document.getElementById("c2-value").innerText = `M2 = ${data.C2}`;
+      }
     });
-}
-if(verifyBtn){
+  }
+  if (signatureBtn) {
+    signatureBtn.addEventListener("click", async () => {
+      const s = parseInt(document.getElementById("s").value);
+      const p = parseInt(document.getElementById("p_b").value);
+      const a = parseInt(document.getElementById("alpha_b").value);
+      const b = parseInt(document.getElementById("beta_b").value);
+      const m = document.getElementById("mm").innerText;
+      const M = [
+        parseInt(convertStringToArray(m)[0]),
+        parseInt(convertStringToArray(m)[1]),
+      ];
+      const p1 = document.getElementById("P_b").value;
+      const P = [
+        parseInt(convertStringToArray(p1)[0]),
+        parseInt(convertStringToArray(p1)[1]),
+      ];
+
+      if (!s || !p || !a || !b || !M || !P) {
+        alert("Please enter values for s, p, a, b, m, and P.");
+        return;
+      }
+      const data = await post1Data("/elliptic_signature/sign", {
+        s,
+        p,
+        a,
+        b,
+        M,
+        P,
+      });
+      if (data.error) {
+        alert(data.error);
+      } else {
+        document.getElementById(
+          "m-encrypt-value"
+        ).innerText = ` (${data.r},${data.s})`;
+      }
+    });
+  }
+  if (verifyBtn) {
     verifyBtn.addEventListener("click", async () => {
-        document.getElementById("verify").innerText = `Verify: true`;
+      document.getElementById("verify").innerText = `Verify: true`;
     });
-}
-        });
+  }
+});
