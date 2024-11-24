@@ -1,4 +1,4 @@
-CRYPTO_BITS = (1024, 1024)
+CRYPTO_BITS = (2048, 2048)
 import sys
 sys.set_int_max_str_digits(2147483647)
 

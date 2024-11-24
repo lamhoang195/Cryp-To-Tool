@@ -14,63 +14,81 @@ document.addEventListener("DOMContentLoaded", function () {
     const decryptBtn = document.querySelector(".decrypt.btn");
     const generateAlphaBtn = document.querySelector(".generate-alpha.btn");
     const convertBtn = document.querySelector(".convert.btn");
-    if(generatePrimeBtn){
-        generatePrimeBtn.addEventListener("click", async () => {
-    const bits = document.getElementById("bits").value;
+    if (generatePrimeBtn) {
+      generatePrimeBtn.addEventListener("click", async () => {
+        const bits = document.getElementById("bits").value;
 
-    if (!bits || bits < 1 || bits > 1024) {
-        alert("Bits must be between 1 and 1024.");
-        return;
+        if (!bits || bits < 1 || bits > 4097) {
+          alert("Bits must be between 1 and 4096.");
+          return;
+        }
+        const data = await postData("/elgamal/genprime", { bits });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById("p").value = data.p;
+        }
+      });
     }
-    const data = await postData("/elgamal/genprime", { bits });
-    if (data.error) {
-        alert(data.error);
-    } else {
-        document.getElementById("p").value =data.p;
+    if (submitBtn) {
+      submitBtn.addEventListener("click", async () => {
+        const p = document.getElementById("p").value;
+        const alpha = document.getElementById("alpha").value;
+        const a = document.getElementById("a").value;
+
+        if (!p || !alpha || !a) {
+          alert("Please enter values for p, alpha, a");
+          return;
+        }
+        const data = await postData("/elgamal/genkey", { p, alpha, a });
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById(
+            "beta-value"
+          ).innerText = `Result: β = ${data.beta.toString()}`;
+          document.getElementById(
+            "public-key"
+          ).innerText = `Public Key: (p, alpha, β) = (${p.toString()}, ${alpha}, ${data.beta.toString()})`;
+          document.getElementById(
+            "private-key"
+          ).innerText = `Private Key: (a) = (${a})`;
+        }
+      });
     }
-});
-    }
-    if(submitBtn){
-        submitBtn.addEventListener("click", async () => {
-    const p = document.getElementById("p").value;
-    const alpha = document.getElementById("alpha").value;
-    const a = document.getElementById("a").value;
-    
-    if (!p || !alpha || !a) {
-        alert("Please enter values for p, alpha, a");
-        return;
-    }
-    const data = await postData("/elgamal/genkey", { p, alpha, a });
-    if (data.error) {
-        alert(data.error);
-    } else {
-    document.getElementById("beta-value").innerText = `Result: β = ${data.beta}`;
-    document.getElementById("public-key").innerText = `Public Key: (p, alpha, β) = (${p}, ${alpha}, ${data.beta})`;
-    document.getElementById("private-key").innerText = `Private Key: (a) = (${a})`;
-    }
-});
-    }
-if(encryptBtn){
-    encryptBtn.addEventListener("click", async () => {
+    if (encryptBtn) {
+      encryptBtn.addEventListener("click", async () => {
         const k = document.getElementById("k").value;
         const m = document.getElementById("m").value;
         const alpha = document.getElementById("alpha").value;
-        const beta = document.getElementById("beta-value").innerText.split("= ")[1];
+        const beta = document
+          .getElementById("beta-value")
+          .innerText.split("= ")[1];
         const p = document.getElementById("p").value;
-       
+
         if (!k || !m || !alpha || !beta || !p) {
-            alert("Please enter values for k, m, p, alpha, and beta.");
-            return;
+          alert("Please enter values for k, m, p, alpha, and beta.");
+          return;
         }
-        const data = await postData("/elgamal/encrypt", { k, m, alpha, beta,p });
-        if (data.error) {
-            alert(data.error);
-        } else {
-            document.getElementById("c1-value").innerText = `c1 = ${data.c1}`;
-            document.getElementById("c2-value").innerText = `c2 = ${data.c2}`;
-        }
+        const data = await postData("/elgamal/encrypt", {
+          k,
+          m,
+          alpha,
+          beta,
+          p,
         });
-}
+        if (data.error) {
+          alert(data.error);
+        } else {
+          document.getElementById(
+            "c1-value"
+          ).innerText = `c1 = ${data.c1.toString()}`;
+          document.getElementById(
+            "c2-value"
+          ).innerText = `c2 = ${data.c2.toString()}`;
+        }
+      });
+    }
 if(decryptBtn){
 decryptBtn.addEventListener("click", async () => {
     const c1 = document.getElementById("c1-decrypt").value;

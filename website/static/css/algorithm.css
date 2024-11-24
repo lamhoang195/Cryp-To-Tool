@@ -69,13 +69,16 @@ input[type="number"] {
     white-space: normal;
 }
 input[type = "text"] {
-    width: 100%;
-    max-width: 500px;
+    width: 100%; /* Chiếm toàn bộ chiều rộng của container */
+    max-width: 750px; /* Đặt giới hạn chiều rộng tối đa */
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
+    word-wrap: break-word; /* Cho phép ngắt từ */
+    overflow-wrap: break-word; /* Thêm hỗ trợ */
+    white-space: normal;
 }
 .btn {
     display: inline-block;

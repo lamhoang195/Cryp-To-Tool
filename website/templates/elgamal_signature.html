@@ -18,9 +18,9 @@
             <p>Start by selecting a prime numbers <var>p</var>:</p>
             <div class="input-item">
                 <label for="p_a"><var>p</var><sub>A</sub> = </label>
-                <input type="number" id="p_a" placeholder="Enter a prime number" value={{p_a}}>
+                <input type="text" id="p_a" placeholder="Enter a prime number" value={{p_a}}>
             </div>
-            <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+            <p>Or you can generate prime numbers with number of bits you want from 1 to 4096:</p>
             <div>
                 <label for="Number of bits">Number of bits</label>
                 <input type="number" id="bits" placeholder="Enter number of bits">
@@ -58,9 +58,9 @@
             <p>Start by selecting a prime numbers <var>p</var>:</p>
             <div class="input-item">
                 <label for="p_b"><var>p</var><sub>B</sub> = </label>
-                <input type="number" id="p_b" placeholder="Enter a prime number" value={{p_a}}>
+                <input type="text" id="p_b" placeholder="Enter a prime number" value={{p_a}}>
             </div>
-            <p>Or you can generate prime numbers with number of bits you want from 1 to 1024:</p>
+            <p>Or you can generate prime numbers with number of bits you want from 1 to 4096:</p>
             <div>
                 <label for="Number of bits">Number of bits</label>
                 <input type="number" id="bits" placeholder="Enter number of bits">
@@ -138,11 +138,11 @@
             <p><var>β<sub>A</sub></var><sup>γ</sup>.<var>γ</var><sup>σ</sup> ≡ <var>α</var><sup>m</sup> mod <var>p</var><sub>A</sub></p>
             <div class="input-item">
                 <label for="gamal-veri"> <var>γ</var> = </label>
-                <input type="number" id="gamal-veri" placeholder="Enter ciphertext y1">
+                <input type="text" id="gamal-veri" placeholder="Enter ciphertext y1">
             </div>
             <div class="input-item">
                 <label for="sigma-veri"> <var>σ</var> = </label>
-                <input type="number" id="sigma-veri" placeholder="Enter ciphertext y2">
+                <input type="text" id="sigma-veri" placeholder="Enter ciphertext y2">
             </div> 
             <div>
                 <button class="verify btn" type="submit">Verify</button>
@@ -155,11 +155,11 @@
             <p><var>m</var> = (<var>c<sub>1</sub></var><sup>p<sub>B</sub> - <var>a<sub>B</sub> - 1</var></sup>.<var>c<sub>2</sub></var>) mod <var>p<sub>B</sub></var></p>
             <div class="input-item">
                 <label for="y1-decrypt"> <var>y1</var> = </label>
-                <input type="number" id="y1-decrypt" placeholder="Enter ciphertext y1">
+                <input type="text" id="y1-decrypt" placeholder="Enter ciphertext y1">
             </div>
             <div class="input-item">
                 <label for="y2-decrypt"> <var>y2</var> = </label>
-                <input type="number" id="y2-decrypt" placeholder="Enter ciphertext y2">
+                <input type="text" id="y2-decrypt" placeholder="Enter ciphertext y2">
             </div>    
             <div>
                 <button class="decrypt-message btn" type="submit">Decrypt</button>
