@@ -182,9 +182,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   generatepointBtn.addEventListener("click", async() => {
-    const p = parseInt(document.getElementById("p").value);
-    const a = parseInt(document.getElementById("a").value);
-    const b = parseInt(document.getElementById("b").value);
+    const p = parseInt(document.getElementById("p_b").value);
+    const a = parseInt(document.getElementById("alpha_b").value);
+    const b = parseInt(document.getElementById("beta_b").value);
     const m = parseInt(document.getElementById("mm").value);
     const p1 = document.getElementById("P_b").value;
     const P = [parseInt(convertStringToArray(p1)[0]),parseInt(convertStringToArray(p1)[1])];
