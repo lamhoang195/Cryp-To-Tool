@@ -11,7 +11,19 @@ from ..Mathematic import is_prime
 from ..Mathematic.extended_euclidean import inverse
 
 from .CryptoECElGamal import ask_elliptic_curve_interactively
-
+def extended_gcd(a, b): 
+    if a == 0: 
+        return b, 0, 1 
+    gcd, x1, y1 = extended_gcd(b % a, a) 
+    x = y1 - (b // a) * x1 
+    y = x1 
+    return gcd, x, y 
+def mod_inverse(a, m): 
+    gcd, x, y = extended_gcd(a, m) 
+    if gcd != 1: 
+        raise ValueError("Inverse does not exist") 
+    else: 
+        return x % m
 class ECDSASignatureSignerKey:
     def __init__(self, ec: EllipticCurve, n: int, d: int):
         self.ec = ec
@@ -74,12 +86,10 @@ class ECDSASignatureSystem(SignatureSystem[
                 k = randrange(1, n - 1)
                 x1 = ec.scale_point(k, G)[0]
                 r = x1 % n
-                
             h = M
-            one_per_k_mod_n = inverse(k, n)
-            s = (h + d * r) % n * one_per_k_mod_n % n
-            
-            return r, s
+            one_per_k_mod_n = mod_inverse(k,n)
+            s = (h + d * r) % n * one_per_k_mod_n % n 
+        return r, s
     
     def verify(self, verifier_key: ECDSASignatureVerifierKey, plain_text: Plaintext, signature: Plaintext) -> bool:
         ec = verifier_key.ec

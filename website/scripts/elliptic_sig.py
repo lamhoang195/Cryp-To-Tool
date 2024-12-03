@@ -55,7 +55,7 @@ def eliptic_signature_sign():
 
         ec = EllipticCurve(p, a, b,P)
         n = ec.num_points_on_curve
-        r,s = ECElGamalSig.sign(ec,n,s, M)
-        return jsonify({'r': r, 's': s})
+        r,S = ECElGamalSig.sign(ec,n,s, M[0])
+        return jsonify({'r': r, 's': S})
     except Exception as e:
         return jsonify({'error': str(e)})

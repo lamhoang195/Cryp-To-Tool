@@ -268,20 +268,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const p = parseInt(document.getElementById("p_b").value);
         const a = parseInt(document.getElementById("alpha_b").value);
         const b = parseInt(document.getElementById("beta_b").value);
-        const m = document.getElementById("mm").innerText; 
+        const m = document.getElementById("m").innerText; 
         const M = [parseInt(convertStringToArray(m)[0]),parseInt(convertStringToArray(m)[1])];
         const p1 = document.getElementById("P_b").value;
         const P = [parseInt(convertStringToArray(p1)[0]),parseInt(convertStringToArray(p1)[1])];
-
         if (!s || !p || !a || !b || !M || !P) {
             alert("Please enter values for s, p, a, b, m, and P.");
             return;
         }
-        const data = await postData("/elliptic_signature/genprime", { bits });
+        const data = await post1Data("/elliptic_signature/sign", { M, s, p, a, b, P });
+        console.log(data);
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    document.getElementById("m-decrypt-value").innerText = 'Encrypt Signature: '+data.p;
+                    document.getElementById("m-encrypt-value").innerText = `Encrypt Signature: r = ${data.r},s = ${data.s}`;
                 }
     });
 }

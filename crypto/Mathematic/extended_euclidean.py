@@ -6,7 +6,7 @@ def extended_euclidean(a: int, b: int) -> tuple[int, int, int, int]:
     B = b
 
     if b == 0:
-        return (a, None, 1, 0)
+        return (a, -1, 1, 0)
 
     x1 = 0
     x2 = 1
@@ -28,7 +28,7 @@ def extended_euclidean(a: int, b: int) -> tuple[int, int, int, int]:
         y1 = y
 
     d = a
-    inverse = (x2 + B) % B if d == 1 else None
+    inverse = (x2 + B) % B if d == 1 else 1
     x = x2
     y = y2
     return (d, inverse, x, y)
