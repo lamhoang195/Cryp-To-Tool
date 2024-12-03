@@ -25,7 +25,9 @@ Install dependencies:
 pip install -r requirements.txt
 Run the app:
 flask run
+```
 
+## 2. Authors
 
 | Student ID |     Full Name     |
 |:----------:|:------------------|
