@@ -1,4 +1,5 @@
-
+LEFT_PADDING_SIZE = 5
+RIGHT_PADDING_SIZE = 2
 from typing import Callable
 class BitPaddingConfig:
     def __init__(self, LEFT_PADDING_SIZE: int, RIGHT_PADDING_SIZE: int):

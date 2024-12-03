@@ -181,18 +181,24 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  generatepointBtn.addEventListener("click", () => {
+  generatepointBtn.addEventListener("click", async() => {
     const p = parseInt(document.getElementById("p").value);
     const a = parseInt(document.getElementById("a").value);
     const b = parseInt(document.getElementById("b").value);
     const m = parseInt(document.getElementById("mm").value);
-    const points = findPointsOnCurve(a, b, p);
+    const p1 = document.getElementById("P_b").value;
+    const P = [parseInt(convertStringToArray(p1)[0]),parseInt(convertStringToArray(p1)[1])];
     if (!p || !a || !b || !m) {
       alert("Please enter values for p, a, b, and m.");
       return;
+    };
+    const data = await post1Data("/elliptic_signature/point", { p, a, b, m ,P});
+    if (data.error) {
+      alert(data.error);
+      return;
+    } else {
+    document.getElementById("m").innerText = `(${data.x}, ${data.y})`;
     }
-    const point = points.find((point) => point.x == m % p);
-    document.getElementById("m").innerText = `(${point.x}, ${point.y})`;
   });
   const convertBtn = document.querySelector(".convert.btn");
   if (convertBtn) {
