@@ -75,7 +75,7 @@ class ECDSASignatureSystem(SignatureSystem[
         )
         return ECDSASignatureVerifierKey(ec, n, Q)
     
-    def sign(self, ec,n,d, M):
+    def sign(self, ec, n, d, M):
         G = ec.starting_point
         s = 0
         r = 0
